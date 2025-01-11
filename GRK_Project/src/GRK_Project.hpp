@@ -49,9 +49,16 @@ glm::vec3 playerPos = glm::vec3(0.0f, 1.25f, -10.0f);
 glm::vec3 playerDir = glm::vec3(-0.0f, 0.00f, 1.0f);
 
 //camera
-glm::vec3 cameraStartPos = playerPos - 0.5 * playerDir + glm::vec3(0, 2, 0) * 0.2f;;
+glm::vec3 cameraStartPos = playerPos - 0.5 * playerDir + glm::vec3(0, 2, 0) * 0.2f;
 glm::vec3 cameraPos = glm::vec3(cameraStartPos.x, cameraStartPos.y, cameraStartPos.z);
 glm::vec3 cameraDir = playerDir;
+
+//mouse
+double lastX, lastY;
+bool firstMouse = true;
+float yaw = 90.0f; // Yaw jest początkowo ustawiony na 90 stopni, aby skierować kamerę wzdłuż osi z
+float pitch = 0.0f;
+float sensitivity = 0.1f;
 
 //aspect and exposition
 float aspectRatio = 1.f;
@@ -329,11 +336,50 @@ void framebuffer_size_callback(GLFWwindow* window, int width, int height)
 	HEIGHT = height;
 }
 
+void mouse_callback(GLFWwindow* window, double xpos, double ypos)
+{
+	if (firstMouse)
+	{
+		lastX = xpos;
+		lastY = ypos;
+		firstMouse = false;
+	}
+
+	float xoffset = xpos - lastX;
+	float yoffset = lastY - ypos; // Odwrócone, ponieważ współrzędne y idą w górę
+	lastX = xpos;
+	lastY = ypos;
+
+	xoffset *= sensitivity;
+	yoffset *= sensitivity;
+
+	yaw += xoffset;
+	pitch += yoffset;
+
+	// Upewnij się, że pitch nie przekracza 89 stopni, aby uniknąć dziwnych efektów
+	if (pitch > 89.0f)
+		pitch = 89.0f;
+	if (pitch < -89.0f)
+		pitch = -89.0f;
+
+	glm::vec3 front;
+	front.x = cos(glm::radians(yaw)) * cos(glm::radians(pitch));
+	front.y = sin(glm::radians(pitch));
+	front.z = sin(glm::radians(yaw)) * cos(glm::radians(pitch));
+	cameraDir = glm::normalize(front);
+
+	playerDir = cameraDir;
+}
+
 
 // init ------------------------------------------------------------------------------------------------------- init
 void init(GLFWwindow* window)
 {
 	glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
+	glfwSetCursorPosCallback(window, mouse_callback);
+
+	glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED); // Ukryj kursor i zablokuj go w oknie
+
 
 	glEnable(GL_DEPTH_TEST);
 	programPBR = shaderLoader.CreateProgram("shaders/shader_pbr.vert", "shaders/shader_pbr.frag");
@@ -518,3 +564,4 @@ void renderLoop(GLFWwindow* window) {
 		setMaxFPS(75);
 	}
 }
+
