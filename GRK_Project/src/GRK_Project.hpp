@@ -60,7 +60,7 @@ float exposition = 1.f;
 //main lamp light
 glm::vec3 pointlightPos = glm::vec3(0.0f, 2.0f, 0.0f);
 glm::vec3 pointlightColorON = glm::vec3(0.9, 0.6, 0.6) * 4;
-glm::vec3 pointlightColor = pointlightColorON*0;
+glm::vec3 pointlightColor = pointlightColorON * 0;
 
 
 
@@ -72,7 +72,7 @@ glm::vec3 pointlightColor = pointlightColorON*0;
 
 
 //projections for shadows
-glm::mat4 sunVP = glm::ortho(-25.f, 25.f, -25.f, 25.f, 1.0f, 80.0f) * glm::lookAt(sunPos, sunPos - sunDir, glm::vec3(0,1,0));
+glm::mat4 sunVP = glm::ortho(-25.f, 25.f, -25.f, 25.f, 1.0f, 80.0f) * glm::lookAt(sunPos, sunPos - sunDir, glm::vec3(0, 1, 0));
 
 
 //delta time ------------------------------------------------------------------------------------------------------------------------------------------------------- delta time
@@ -101,8 +101,8 @@ glm::mat4 rotateAroundPivot(float degrees, glm::vec3 axis, glm::vec3 pivot)
 //camera and perspective matrix ------------------------------------------------------------------------------------------------------------------ camera and perspective matrix
 glm::mat4 createCameraMatrix()
 {
-	glm::vec3 cameraSide = glm::normalize(glm::cross(cameraDir,glm::vec3(0.f,1.f,0.f)));
-	glm::vec3 cameraUp = glm::normalize(glm::cross(cameraSide,cameraDir));
+	glm::vec3 cameraSide = glm::normalize(glm::cross(cameraDir, glm::vec3(0.f, 1.f, 0.f)));
+	glm::vec3 cameraUp = glm::normalize(glm::cross(cameraSide, cameraDir));
 	glm::mat4 cameraRotrationMatrix = glm::mat4({
 		cameraSide.x,cameraSide.y,cameraSide.z,0,
 		cameraUp.x,cameraUp.y,cameraUp.z ,0,
@@ -117,7 +117,7 @@ glm::mat4 createCameraMatrix()
 
 glm::mat4 createPerspectiveMatrix()
 {
-	
+
 	glm::mat4 perspectiveMatrix;
 	float n = 0.05;
 	float f = 20.;
@@ -126,12 +126,12 @@ glm::mat4 createPerspectiveMatrix()
 	perspectiveMatrix = glm::mat4({
 		1,0.,0.,0.,
 		0.,aspectRatio,0.,0.,
-		0.,0.,(f+n) / (n - f),2*f * n / (n - f),
+		0.,0.,(f + n) / (n - f),2 * f * n / (n - f),
 		0.,0.,-1.,0.,
 		});
 
-	
-	perspectiveMatrix=glm::transpose(perspectiveMatrix);
+
+	perspectiveMatrix = glm::transpose(perspectiveMatrix);
 
 	return perspectiveMatrix;
 }
@@ -139,7 +139,7 @@ glm::mat4 createPerspectiveMatrix()
 
 
 //drawPBR ----------------------------------------------------------------------------------------------------------------------------------------------------------- drawPBR
-void drawObjectPBR(Core::RenderContext& context, glm::mat4 modelMatrix, glm::vec3 color, GLuint textureId, float roughness, float metallic, float brightness) 
+void drawObjectPBR(Core::RenderContext& context, glm::mat4 modelMatrix, glm::vec3 color, GLuint textureId, float roughness, float metallic, float brightness)
 {
 	GLuint program;
 	if (textureId == NULL)
@@ -174,8 +174,8 @@ void drawObjectPBR(Core::RenderContext& context, glm::mat4 modelMatrix, glm::vec
 	glUniform3f(glGetUniformLocation(program, "cameraPos"), cameraPos.x, cameraPos.y, cameraPos.z);
 	glUniform3f(glGetUniformLocation(program, "cameraStartPos"), cameraStartPos.x, cameraStartPos.y, cameraStartPos.z);
 
-	glUniform3f(glGetUniformLocation(program, "sunDir"),  sunDir.x, sunDir.y, sunDir.z);
-	glUniform3f(glGetUniformLocation(program, "sunColor"), sunColor.x * sunForce/100, sunColor.y * sunForce/100, sunColor.z * sunForce/100);
+	glUniform3f(glGetUniformLocation(program, "sunDir"), sunDir.x, sunDir.y, sunDir.z);
+	glUniform3f(glGetUniformLocation(program, "sunColor"), sunColor.x * sunForce / 100, sunColor.y * sunForce / 100, sunColor.z * sunForce / 100);
 
 	glUniform3f(glGetUniformLocation(program, "lightPos"), pointlightPos.x, pointlightPos.y, pointlightPos.z);
 	glUniform3f(glGetUniformLocation(program, "lightColor"), pointlightColor.x, pointlightColor.y, pointlightColor.z);
@@ -190,7 +190,7 @@ void drawObjectPBR(Core::RenderContext& context, glm::mat4 modelMatrix, glm::vec
 	{
 		Core::SetActiveTexture(textureId, "colorTexture", programTex, 0);
 	}
-	
+
 	Core::DrawContext(context);
 }
 
@@ -198,7 +198,7 @@ void drawObjectPBR(Core::RenderContext& context, glm::mat4 modelMatrix, glm::vec
 void animatePlayer()
 {
 	// FAJNIE BYLOBY DODAC COS ZE NP USER TO JAKAS RYBA I PLYWAMY JAKO RYBA I ZE NP JEJ OGON MACHA CIAGLE ALBO COS TAKIEGO PODOBNEGO
-	
+
 }
 
 void animateInteractive()
@@ -226,7 +226,7 @@ void renderSun()
 {
 	glUseProgram(programSun);
 	glm::mat4 viewProjectionMatrix = createPerspectiveMatrix() * createCameraMatrix();
-	glm::mat4 transformation = viewProjectionMatrix * glm::translate(sunPos + glm::vec3(0.0f,0.0f,0.0f)) * glm::scale(glm::vec3(1.0f));
+	glm::mat4 transformation = viewProjectionMatrix * glm::translate(sunPos + glm::vec3(0.0f, 0.0f, 0.0f)) * glm::scale(glm::vec3(1.0f));
 	glUniformMatrix4fv(glGetUniformLocation(programSun, "transformation"), 1, GL_FALSE, (float*)&transformation);
 	glUniform3f(glGetUniformLocation(programSun, "color"), sunColor.x * 7.5f, sunColor.y * 7.5f, sunColor.z * 7.5f);
 	glUniform1f(glGetUniformLocation(programSun, "exposition"), exposition);
@@ -259,12 +259,12 @@ void renderShadows(GLuint program, GLuint FBO, glm::mat4 VP) {
 
 	//render structures
 	drawObjectDepth(program, models::ground, VP, glm::mat4());
-	
+
 
 	//render animals
 
 	//render environment
-	
+
 
 
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
@@ -288,21 +288,29 @@ void renderScene(GLFWwindow* window)
 
 	//time and delta time
 	float time = glfwGetTime();
+
 	updateDeltaTime(time);
 
 	//sun
 	renderSun();
-	
-	
+
+
 	//render structures
 	drawObjectPBR(models::ground, glm::mat4(), glm::vec3(), textures::ground, 0.8f, 0.0f, 30.0f);
 	// np statek, jakis skarb piracki ??
-
+	
 	//render animals 
 	// rekiny, ryby, kraby, ryba z lampką na czole
-	
+
 	//render environment
 	// roslinnosc, kamienie itp
+	glm::mat4 modelMatrix = glm::mat4();
+	modelMatrix = glm::translate(modelMatrix, glm::vec3(0.0f, -0.8f,0.0f)); // Przesunięcie
+	modelMatrix = glm::scale(modelMatrix, glm::vec3(0.1f, 0.1f, 0.1f));    // Skalowanie
+	modelMatrix = glm::rotate(modelMatrix, glm::radians(-30.0f), glm::vec3(1.0f, 0.0f, 0.0f)); // Obrót
+	drawObjectPBR(models::v_boat, modelMatrix, glm::vec3(), textures::v_boat,0.0f, 0.0f, 30.0f);
+
+	
 
 	//render and animate player
 	animatePlayer();
@@ -338,9 +346,9 @@ void init(GLFWwindow* window)
 
 	//init depth maps
 	initDepthMap(depthMapSun, depthMapSunFBO);
-	
 
-	
+
+
 }
 
 
@@ -359,7 +367,7 @@ void shutdown(GLFWwindow* window)
 //input processing ------------------------------------------------------------------------------------------------------------------------------------------- input processing
 void processInput(GLFWwindow* window)
 {
-	glm::vec3 spaceshipSide = glm::normalize(glm::cross(playerDir, glm::vec3(0.f,1.f,0.f)));
+	glm::vec3 spaceshipSide = glm::normalize(glm::cross(playerDir, glm::vec3(0.f, 1.f, 0.f)));
 	glm::vec3 spaceshipUp = glm::vec3(0.f, 1.f, 0.f);
 	float angleSpeed = 0.05f * deltaTime * 60;
 	float moveSpeed = 0.05f * deltaTime * 60;
@@ -374,8 +382,8 @@ void processInput(GLFWwindow* window)
 	//motion
 	if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS) {
 		playerPos += playerDir * moveSpeed;
-		
-	}	
+
+	}
 	if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS) {
 		playerPos -= playerDir * moveSpeed;
 	}
@@ -391,7 +399,7 @@ void processInput(GLFWwindow* window)
 	if (glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS) {
 		playerPos -= spaceshipUp * moveSpeed;
 	}
-	
+
 
 	//rotation
 	if (glfwGetKey(window, GLFW_KEY_Q) == GLFW_PRESS) {
@@ -400,7 +408,7 @@ void processInput(GLFWwindow* window)
 	if (glfwGetKey(window, GLFW_KEY_E) == GLFW_PRESS) {
 		playerDir = glm::vec3(glm::eulerAngleY(-angleSpeed) * glm::vec4(playerDir, 0));
 	}
-		
+
 
 	//update camera
 	cameraPos = playerPos - 0.5 * playerDir + glm::vec3(0, 2, 0) * 0.2f;
@@ -437,7 +445,7 @@ void processInput(GLFWwindow* window)
 	if (glfwGetKey(window, GLFW_KEY_0) == GLFW_PRESS) {
 		sunz -= 0.1;
 	}
-		
+
 
 	// debug info
 	if (glfwGetKey(window, GLFW_KEY_3) == GLFW_PRESS) {
@@ -490,7 +498,7 @@ void setMaxFPS(float fps)
 	if (1 / deltaTime > fps)
 	{
 		float timeToDelay = 1 - (deltaTime * fps);
-		Sleep((timeToDelay * 1000)/fps);
+		Sleep((timeToDelay * 1000) / fps);
 	}
 }
 
@@ -502,7 +510,7 @@ void renderLoop(GLFWwindow* window) {
 		processInput(window);
 		constrainMovement();
 
-		
+
 
 		renderScene(window);
 		glfwPollEvents();

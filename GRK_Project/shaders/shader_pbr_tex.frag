@@ -39,7 +39,7 @@ in vec3 viewDirTS;
 in vec3 lightDirTS;
 in vec3 spotlightDirTS;
 in vec4 sunSpacePos;
-in vec4 tableLightSpacePos;
+
 in vec3 sunDirTS;
 
 vec3 color = texture(colorTexture, vecTex).xyz * brightness;
@@ -147,16 +147,7 @@ void main()
 	vec3 attenuatedlightColor = lightColor/pow(length(lightPos-worldPos),2);
 	vec3 ilumination;
 	ilumination = ambient+PBRLight(lightDir,attenuatedlightColor,normal,viewDir);
-	
-	//table light
-	//vec3 spotlightDir= normalize(spotlightDirTS);
-	vec3 spotlightDir= normalize(spotlightPos-worldPos);
-	
-    //table light
-    float shadowTableLight = ShadowCalculation(tableLightSpacePos, normal, spotlightDir, depthMapTableLight);
-    float angle_atenuation = clamp((dot(-normalize(spotlightPos-worldPos),spotlightConeDir)-0.5)*3,0,1);
-	attenuatedlightColor = angle_atenuation*spotlightColor/pow(length(spotlightPos-worldPos),2);
-	ilumination=ilumination+PBRLight(spotlightDir,attenuatedlightColor,normal,viewDir);
+
 
 	//sun
     float shadowSun = ShadowCalculation(sunSpacePos, normal, sunDir, depthMapSun);

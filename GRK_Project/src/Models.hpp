@@ -15,7 +15,7 @@ namespace models
 	//user
 
 	//environment
-	
+	Core::RenderContext v_boat;
 
 }
 
@@ -33,7 +33,7 @@ namespace textures
 	//user
 
 	//environment
-
+	GLuint v_boat;
 }
 
 //paths ----------------------------------------------------------------------------------------------------------------------------------------------------------path
@@ -51,7 +51,7 @@ namespace objects_paths
 	
 
 	//environment
-
+	std::string v_boat = "./models/environment/v_boat";
 }
 
 //get element path ------------------------------------------------------------------------------------------------------------------ get element path
@@ -179,5 +179,5 @@ void loadAllModels()
 	loadSkyboxWithTextures(objects_paths::skybox, models::skybox);
 
 	//load environment objects and their textures 
-
+	loadModelToContext(objects_paths::v_boat, models::v_boat, textures::v_boat);
 }
