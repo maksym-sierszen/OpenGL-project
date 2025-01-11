@@ -133,16 +133,17 @@ void loadSkyboxWithTextures(std::string pathObject, Core::RenderContext& context
 	glBindTexture(GL_TEXTURE_CUBE_MAP, textures::skybox);
 
 	const char* filepaths[6] = {
-		"models/structures/skybox/textures/side1.png",
-		"models/structures/skybox/textures/side2.png",
-		"models/structures/skybox/textures/top.jpg",
-		"models/structures/skybox/textures/bottom.jpg",
-		"models/structures/skybox/textures/side3.png",
-		"models/structures/skybox/textures/side4.jpg"
+		"models/structures/skybox/textures/uw_ft.jpg",
+		"models/structures/skybox/textures/uw_bk.jpg",
+		"models/structures/skybox/textures/uw_up.jpg",
+		"models/structures/skybox/textures/uw_dn.jpg",
+		"models/structures/skybox/textures/uw_rt.jpg",
+		"models/structures/skybox/textures/uw_lf.jpg"
 	};
 	for (unsigned int i = 0; i < 6; i++)
 	{
 		unsigned char* image = SOIL_load_image(filepaths[i], &w, &h, 0, SOIL_LOAD_RGBA);
+		std::cout << "Trying to load texture: " << filepaths[i] << std::endl;
 		if (image) {
 			glTexImage2D(
 				GL_TEXTURE_CUBE_MAP_POSITIVE_X + i,
