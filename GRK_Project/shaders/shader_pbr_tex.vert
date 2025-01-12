@@ -14,6 +14,7 @@ uniform mat4 tableLightVP;
 
 out vec3 vecNormal;
 out vec3 worldPos;
+out float visibility;
 
 uniform vec3 lightPos;
 uniform vec3 spotlightPos;
@@ -27,6 +28,8 @@ out vec3 sunDirTS;
 out vec2 vecTex;
 out vec4 sunSpacePos;
 
+const float density = 0.05;
+const float gradient = 1.0;
 
 void main()
 {
@@ -51,5 +54,8 @@ void main()
 	vec3 SL = normalize(spotlightPos-worldPos);
 	spotlightDirTS = TBN*SL;
 	sunDirTS = TBN*sunDir;
+
+	visibility = exp(-pow(length(cameraPos-worldPos)*density,gradient));
+	visibility = clamp(visibility,0.0,0.6);
 
 }

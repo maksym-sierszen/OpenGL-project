@@ -31,6 +31,7 @@ uniform float exposition;
 in vec3 vecNormal;
 in vec3 worldPos;
 in vec2 vecTex;
+in float visibility;
 
 out vec4 outColor;
 
@@ -154,5 +155,7 @@ void main()
 	ilumination=ilumination+PBRLight(sunDir,shadowSun*sunColor,normal,viewDirSun);
 
     
+    vec3 skyColor = vec3(0.0, 0.4, 0.8);
 	outColor = vec4(vec3(1.0) - exp(-ilumination*exposition),1);
+    outColor = mix(outColor, vec4(skyColor, 1.0), 1.0 - visibility);
 }
