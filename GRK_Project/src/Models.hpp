@@ -11,6 +11,7 @@ namespace models
 	Core::RenderContext skybox;
 
 	//animals
+	Core::RenderContext trout;
 
 	//user
 
@@ -29,6 +30,7 @@ namespace textures
 	GLuint skybox;
 
 	//animals
+	GLuint trout;
 
 	//user
 
@@ -45,6 +47,7 @@ namespace objects_paths
 	std::string skybox = "./models/structures/skybox";
 
 	//animals
+	std::string trout = "./models/environment/trout";
 
 
 	//user
@@ -120,7 +123,7 @@ void loadModelToContext(std::string pathObject, Core::RenderContext& context, GL
 	{
 		texture = Core::LoadTexture(getTexturePath(pathObject).c_str());
 	}
-}
+	}
 
 //load skybox and it's texture -------------------------------------------------------------------------------------------------------------- load skybox and it's texture
 void loadSkyboxWithTextures(std::string pathObject, Core::RenderContext& context)
@@ -180,4 +183,6 @@ void loadAllModels()
 
 	//load environment objects and their textures 
 	loadModelToContext(objects_paths::v_boat, models::v_boat, textures::v_boat);
+	loadModelToContext(objects_paths::trout, models::trout, textures::trout);
 }
+
