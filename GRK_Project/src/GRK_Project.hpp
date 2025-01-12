@@ -222,9 +222,27 @@ void animateShark(glm::mat4 startingSharkPos)
 	// TUTAJ ROZPISZEMY ANIMACJE ABY REKIN PLYWAL W KOLKO NAD WRAKIEM NP
 }
 
-void animateCosKolejnegoDoAnimacjik(glm::mat4 startingPos)
+void animateTrout(glm::mat4 startingPos)
 {
-	// JESZCZE JEDNA ANIMACJA DO WYMYSLENIA
+	// Example animation: make the trout swim in a circle
+	float time = glfwGetTime();
+	float radius = 5.0f;
+	float speed = 1.0f;
+
+	float x = radius * cos(speed * time);
+	float z = radius * sin(speed * time);
+	glm::vec3 position = glm::vec3(x, 1.0f, z);
+
+	// Calculate the angle to rotate the trout to face the direction of movement
+	float angle = atan2(z, x);
+
+	glm::mat4 modelMatrix = glm::translate(startingPos, position);
+    modelMatrix = glm::rotate(modelMatrix, -angle, glm::vec3(0.0f, 1.0f, 0.0f)); // Rotate the trout in the opposite direction
+
+	// Apply the animation to the trout model
+	//applyAnimation(models::troutScene, models::trout, time);
+	drawObjectPBR(models::trout, modelMatrix, glm::vec3(), textures::trout, 0.0f, 0.0f, 30.0f);
+
 }
 
 
@@ -308,6 +326,10 @@ void renderScene(GLFWwindow* window)
 	
 	//render animals 
 	// rekiny, ryby, kraby, ryba z lampką na czole
+	glm::mat4 startingPos = glm::mat4();
+	startingPos = glm::translate(startingPos, glm::vec3(0.0f, 5.0f, 0.0f)); // Przesunięcie
+	startingPos = glm::rotate(startingPos, glm::radians(-90.0f), glm::vec3(0.0f, 1.0f, 0.0f)); // Obrót
+    animateTrout(startingPos);
 
 	//render environment
 	// roslinnosc, kamienie itp
@@ -316,6 +338,7 @@ void renderScene(GLFWwindow* window)
 	modelMatrix = glm::scale(modelMatrix, glm::vec3(0.1f, 0.1f, 0.1f));    // Skalowanie
 	modelMatrix = glm::rotate(modelMatrix, glm::radians(-30.0f), glm::vec3(1.0f, 0.0f, 0.0f)); // Obrót
 	drawObjectPBR(models::v_boat, modelMatrix, glm::vec3(), textures::v_boat,0.0f, 0.0f, 30.0f);
+
 
 	
 
