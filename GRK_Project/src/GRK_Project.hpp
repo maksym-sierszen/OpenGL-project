@@ -258,13 +258,6 @@ void animateInteractive()
 	// MOZE SIE JAKIS LISTENER PRZYDAC WTEDY KTORY WYKRYJE USERA
 }
 
-
-
-void animateShark(glm::mat4 startingSharkPos)
-{
-	// TUTAJ ROZPISZEMY ANIMACJE ABY REKIN PLYWAL W KOLKO NAD WRAKIEM NP
-}
-
 void animateShark(glm::mat4 startingPos)
 {
 	// Example animation: make the trout swim in a circle
