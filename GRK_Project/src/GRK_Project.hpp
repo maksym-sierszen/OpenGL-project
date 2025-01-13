@@ -106,7 +106,7 @@ glm::mat4 rotateAroundPivot(float degrees, glm::vec3 axis, glm::vec3 pivot)
 
 
 //camera and perspective matrix ------------------------------------------------------------------------------------------------------------------ camera and perspective matrix
-glm::mat4 createCameraMatrix()
+/*glm::mat4 createCameraMatrix()
 {
 	glm::vec3 cameraSide = glm::normalize(glm::cross(cameraDir, glm::vec3(0.f, 1.f, 0.f)));
 	glm::vec3 cameraUp = glm::normalize(glm::cross(cameraSide, cameraDir));
@@ -118,6 +118,24 @@ glm::mat4 createCameraMatrix()
 		});
 	cameraRotrationMatrix = glm::transpose(cameraRotrationMatrix);
 	glm::mat4 cameraMatrix = cameraRotrationMatrix * glm::translate(-cameraPos);
+
+	return cameraMatrix;
+}*/
+
+glm::mat4 createCameraMatrix()
+{
+	glm::vec3 cameraSide = glm::normalize(glm::cross(cameraDir, glm::vec3(0.f, 1.f, 0.f)));
+	glm::vec3 cameraUp = glm::normalize(glm::cross(cameraSide, cameraDir));
+	glm::vec3 cameraPosition = playerPos - cameraDir * 0.5f + glm::vec3(0, 2, 0) * 0.2f; // Adjust the distance and height as needed
+	//cameraPos = playerPos - 0.5 * playerDir + glm::vec3(0, 2, 0) * 0.2f;
+	glm::mat4 cameraRotationMatrix = glm::mat4({
+		cameraSide.x,cameraSide.y,cameraSide.z,0,
+		cameraUp.x,cameraUp.y,cameraUp.z ,0,
+		-cameraDir.x,-cameraDir.y,-cameraDir.z,0,
+		0.,0.,0.,1.,
+		});
+	cameraRotationMatrix = glm::transpose(cameraRotationMatrix);
+	glm::mat4 cameraMatrix = cameraRotationMatrix * glm::translate(-cameraPosition);
 
 	return cameraMatrix;
 }
@@ -204,8 +222,12 @@ void drawObjectPBR(Core::RenderContext& context, glm::mat4 modelMatrix, glm::vec
 //animations ----------------------------------------------------------------------------------------------------------------------------------------------------- animations
 void animatePlayer()
 {
-	// FAJNIE BYLOBY DODAC COS ZE NP USER TO JAKAS RYBA I PLYWAMY JAKO RYBA I ZE NP JEJ OGON MACHA CIAGLE ALBO COS TAKIEGO PODOBNEGO
-
+		// add nemo model as player
+		glm::mat4 modelMatrix = glm::translate(glm::mat4(1.0f), playerPos);
+		modelMatrix = glm::scale(modelMatrix, glm::vec3(5.0f));
+        modelMatrix = glm::rotate(modelMatrix, glm::radians(-yaw + 90), glm::vec3(0.0f, 1.0f, 0.0f)); // Rotate to face the same direction as the camera
+		drawObjectPBR(models::nemo, modelMatrix, glm::vec3(), textures::nemo, 0.0f, 0.0f, 30.0f);
+		//drawObjectPBR(models::trout, modelMatrix, glm::vec3(), textures::trout, 0.5f, 0.5f, 1.0f);
 }
 
 void animateInteractive()
@@ -480,8 +502,8 @@ void processInput(GLFWwindow* window)
 
 
 	//update camera
-	cameraPos = playerPos - 0.5 * playerDir + glm::vec3(0, 2, 0) * 0.2f;
-	cameraDir = playerDir;
+	/*cameraPos = playerPos - 0.5 * playerDir + glm::vec3(0, 2, 0) * 0.2f;
+	cameraDir = playerDir;*/
 
 
 	//exposition

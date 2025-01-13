@@ -1,3 +1,6 @@
+#ifndef MODELS_HPP
+#define MODELS_HPP
+
 #include <string>
 #include <filesystem>
 
@@ -12,6 +15,7 @@ namespace models
 
 	//animals
 	Core::RenderContext trout;
+	Core::RenderContext nemo;
 
 	//user
 
@@ -31,6 +35,7 @@ namespace textures
 
 	//animals
 	GLuint trout;
+	GLuint nemo;
 
 	//user
 
@@ -48,6 +53,7 @@ namespace objects_paths
 
 	//animals
 	std::string trout = "./models/environment/trout";
+	std::string nemo = "./models/environment/nemo";
 
 
 	//user
@@ -65,7 +71,7 @@ std::string getModelPath(std::string path)
 	for (const auto& entry : std::filesystem::directory_iterator(path))
 	{
 		std::string file = entry.path().generic_u8string();
-		if (file.substr(file.length() - 4, file.length()) == ".obj")
+		if (file.substr(file.length() - 4, file.length()) == ".obj" || file.substr(file.length() - 4, file.length()) == ".fbx")
 		{
 			model_path = file;
 		}
@@ -184,5 +190,8 @@ void loadAllModels()
 	//load environment objects and their textures 
 	loadModelToContext(objects_paths::v_boat, models::v_boat, textures::v_boat);
 	loadModelToContext(objects_paths::trout, models::trout, textures::trout);
+	loadModelToContext(objects_paths::nemo, models::nemo, textures::nemo);
 }
+
+#endif // MODELS_HPP
 
