@@ -70,8 +70,6 @@ glm::vec3 pointlightPos = glm::vec3(0.0f, 2.0f, 0.0f);
 glm::vec3 pointlightColorON = glm::vec3(0.9, 0.6, 0.6) * 4;
 glm::vec3 pointlightColor = pointlightColorON * 0;
 
-
-
 //player animation
 
 
@@ -140,6 +138,7 @@ glm::mat4 createCameraMatrix()
 
 	return cameraMatrix;
 }
+
 
 glm::mat4 createPerspectiveMatrix()
 {
@@ -265,12 +264,12 @@ void animateShark(glm::mat4 startingSharkPos)
 	// TUTAJ ROZPISZEMY ANIMACJE ABY REKIN PLYWAL W KOLKO NAD WRAKIEM NP
 }
 
-void animateTrout(glm::mat4 startingPos)
+void animateShark(glm::mat4 startingPos)
 {
 	// Example animation: make the trout swim in a circle
 	float time = glfwGetTime();
-	float radius = 5.0f;
-	float speed = 1.0f;
+	float radius = 8.0f;
+	float speed = 0.3f;
 
 	float x = radius * cos(speed * time);
 	float z = radius * sin(speed * time);
@@ -284,7 +283,7 @@ void animateTrout(glm::mat4 startingPos)
 
 	// Apply the animation to the trout model
 	//applyAnimation(models::troutScene, models::trout, time);
-	drawObjectPBR(models::trout, modelMatrix, glm::vec3(), textures::trout, 0.0f, 0.0f, 30.0f);
+	drawObjectPBR(models::shark, modelMatrix, glm::vec3(), textures::shark, 0.0f, 0.0f, 30.0f);
 
 }
 
@@ -372,7 +371,7 @@ void renderScene(GLFWwindow* window)
 	glm::mat4 startingPos = glm::mat4();
 	startingPos = glm::translate(startingPos, glm::vec3(0.0f, 5.0f, 0.0f)); // Przesunięcie
 	startingPos = glm::rotate(startingPos, glm::radians(-90.0f), glm::vec3(0.0f, 1.0f, 0.0f)); // Obrót
-    animateTrout(startingPos);
+    animateShark(startingPos);
 
 	//render environment
 	// roslinnosc, kamienie itp

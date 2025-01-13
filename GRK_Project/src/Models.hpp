@@ -16,6 +16,7 @@ namespace models
 	//animals
 	Core::RenderContext trout;
 	Core::RenderContext nemo;
+	Core::RenderContext shark;
 
 	//user
 
@@ -36,6 +37,7 @@ namespace textures
 	//animals
 	GLuint trout;
 	GLuint nemo;
+	GLuint shark;
 
 	//user
 
@@ -54,6 +56,7 @@ namespace objects_paths
 	//animals
 	std::string trout = "./models/environment/trout";
 	std::string nemo = "./models/environment/nemo";
+	std::string shark = "./models/environment/shark";
 
 
 	//user
@@ -191,6 +194,7 @@ void loadAllModels()
 	loadModelToContext(objects_paths::v_boat, models::v_boat, textures::v_boat);
 	loadModelToContext(objects_paths::trout, models::trout, textures::trout);
 	loadModelToContext(objects_paths::nemo, models::nemo, textures::nemo);
+	loadModelToContext(objects_paths::shark, models::shark, textures::shark);
 }
 
 #endif // MODELS_HPP
