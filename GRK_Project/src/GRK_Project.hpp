@@ -52,6 +52,7 @@ glm::vec3 playerDir = glm::vec3(-0.0f, 0.00f, 1.0f);
 glm::vec3 cameraStartPos = playerPos - 0.5 * playerDir + glm::vec3(0, 2, 0) * 0.2f;
 glm::vec3 cameraPos = glm::vec3(cameraStartPos.x, cameraStartPos.y, cameraStartPos.z);
 glm::vec3 cameraDir = playerDir;
+glm::vec3 playerVelocity(0.0f, 0.0f, 0.0f);
 
 //mouse
 double lastX, lastY;
@@ -126,7 +127,7 @@ glm::mat4 createCameraMatrix()
 {
 	glm::vec3 cameraSide = glm::normalize(glm::cross(cameraDir, glm::vec3(0.f, 1.f, 0.f)));
 	glm::vec3 cameraUp = glm::normalize(glm::cross(cameraSide, cameraDir));
-	glm::vec3 cameraPosition = playerPos - cameraDir * 0.5f + glm::vec3(0, 2, 0) * 0.2f; // Adjust the distance and height as needed
+	//glm::vec3 cameraPosition = playerPos - cameraDir * 0.5f + glm::vec3(0, 2, 0) * 0.2f; // Adjust the distance and height as needed
 	//cameraPos = playerPos - 0.5 * playerDir + glm::vec3(0, 2, 0) * 0.2f;
 	glm::mat4 cameraRotationMatrix = glm::mat4({
 		cameraSide.x,cameraSide.y,cameraSide.z,0,
@@ -135,7 +136,7 @@ glm::mat4 createCameraMatrix()
 		0.,0.,0.,1.,
 		});
 	cameraRotationMatrix = glm::transpose(cameraRotationMatrix);
-	glm::mat4 cameraMatrix = cameraRotationMatrix * glm::translate(-cameraPosition);
+	glm::mat4 cameraMatrix = cameraRotationMatrix * glm::translate(-cameraPos);
 
 	return cameraMatrix;
 }
@@ -225,7 +226,27 @@ void animatePlayer()
 		// add nemo model as player
 		glm::mat4 modelMatrix = glm::translate(glm::mat4(1.0f), playerPos);
 		modelMatrix = glm::scale(modelMatrix, glm::vec3(5.0f));
-        modelMatrix = glm::rotate(modelMatrix, glm::radians(-yaw + 90), glm::vec3(0.0f, 1.0f, 0.0f)); // Rotate to face the same direction as the camera
+		// orientate the player according to the way it's moving
+		if (glm::length(playerVelocity) > 0.001f) {
+			playerDir = glm::normalize(playerVelocity); // Update direction based on movement
+		}
+
+		// Interpolate player direction for smooth rotation
+		glm::vec3 targetDir = glm::normalize(playerDir);
+		playerDir = glm::mix(playerDir, targetDir, 0.1f); // Adjust 0.1f for smoothing speed
+
+		// Calculate the right and up vectors
+		glm::vec3 right = glm::normalize(glm::cross(glm::vec3(0.0f, 1.0f, 0.0f), playerDir));
+		glm::vec3 up = glm::cross(playerDir, right);
+
+		// Create the rotation matrix
+		glm::mat4 rotationMatrix(1.0f);
+		rotationMatrix[0] = glm::vec4(right, 0.0f);
+		rotationMatrix[1] = glm::vec4(up, 0.0f);
+		rotationMatrix[2] = glm::vec4(playerDir, 0.0f);
+
+		modelMatrix *= rotationMatrix; // Apply rotation
+		
 		drawObjectPBR(models::nemo, modelMatrix, glm::vec3(), textures::nemo, 0.0f, 0.0f, 30.0f);
 		//drawObjectPBR(models::trout, modelMatrix, glm::vec3(), textures::trout, 0.5f, 0.5f, 1.0f);
 }
@@ -471,6 +492,7 @@ void processInput(GLFWwindow* window)
 
 
 	//motion
+	glm::vec3 acceleration(0.0f);
 	if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS) {
 		playerPos += playerDir * moveSpeed;
 
@@ -502,8 +524,8 @@ void processInput(GLFWwindow* window)
 
 
 	//update camera
-	/*cameraPos = playerPos - 0.5 * playerDir + glm::vec3(0, 2, 0) * 0.2f;
-	cameraDir = playerDir;*/
+	cameraPos = playerPos - 0.5 * playerDir + glm::vec3(0, 1, 0) * 0.2f;
+	//cameraDir = playerDir;
 
 
 	//exposition
