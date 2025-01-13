@@ -17,6 +17,7 @@
 #include "SOIL/SOIL.h"
 #include "Models.hpp"
 #include "Shadows.hpp"
+#include "../Boids.hpp"
 
 //window variables
 const unsigned int SHADOW_WIDTH = 1024, SHADOW_HEIGHT = 1024;
@@ -338,6 +339,18 @@ void renderShadows(GLuint program, GLuint FBO, glm::mat4 VP) {
 	glViewport(0, 0, WIDTH, HEIGHT);
 }
 
+void renderBoids() {
+	updateBoids(deltaTime);
+	for (Boid& boid : boids) {
+		glm::mat4 modelMatrix = glm::translate(glm::mat4(1.0f), boid.position);
+		glm::mat4 orientation = calculateOrientation(boid.velocity);
+		modelMatrix *= orientation;
+		// Render the boid using the model matrix
+		//drawObjectPBR(models::trout, modelMatrix, glm::vec3(1.0f), textures::trout, 0.5f, 0.5f, 1.0f);
+		drawObjectPBR(models::trout, modelMatrix, glm::vec3(), textures::trout, 0.0f, 0.0f, 30.0f);
+	}
+}
+
 //render scene --------------------------------------------------------------------------------- render scene
 void renderScene(GLFWwindow* window)
 {
@@ -381,7 +394,7 @@ void renderScene(GLFWwindow* window)
 	modelMatrix = glm::rotate(modelMatrix, glm::radians(-30.0f), glm::vec3(1.0f, 0.0f, 0.0f)); // Obrót
 	drawObjectPBR(models::v_boat, modelMatrix, glm::vec3(), textures::v_boat,0.0f, 0.0f, 30.0f);
 
-
+	renderBoids();
 	
 
 	//render and animate player
@@ -458,6 +471,8 @@ void init(GLFWwindow* window)
 	//init depth maps
 	initDepthMap(depthMapSun, depthMapSunFBO);
 
+	initializeBoids(100);
+
 
 
 }
@@ -472,8 +487,6 @@ void shutdown(GLFWwindow* window)
 	shaderLoader.DeleteProgram(programSkybox);
 	shaderLoader.DeleteProgram(programDepth);
 }
-
-
 
 //input processing ------------------------------------------------------------------------------------------------------------------------------------------- input processing
 void processInput(GLFWwindow* window)
@@ -621,8 +634,6 @@ void renderLoop(GLFWwindow* window) {
 	{
 		processInput(window);
 		constrainMovement();
-
-
 
 		renderScene(window);
 		glfwPollEvents();
