@@ -56,6 +56,6 @@ void main()
 	sunDirTS = TBN*sunDir;
 
 	visibility = exp(-pow(length(cameraPos-worldPos)*density,gradient));
-	visibility = clamp(visibility,0.0,0.6);
+	visibility = clamp(visibility,0.0,0.75);
 
 }
