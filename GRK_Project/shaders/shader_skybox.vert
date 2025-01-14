@@ -19,5 +19,5 @@ void main()
     // Calculate visibility based on distance and fog parameters
     float distance = length(cameraPos - vertexPosition);
     visibility = exp(-pow(distance * density, gradient));
-    visibility = clamp(visibility, 0.0, 0.6);
+    visibility = clamp(visibility, 0.0, 0.3);
 }
