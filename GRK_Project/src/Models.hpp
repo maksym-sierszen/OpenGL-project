@@ -74,7 +74,7 @@ std::string getModelPath(std::string path)
 	for (const auto& entry : std::filesystem::directory_iterator(path))
 	{
 		std::string file = entry.path().generic_u8string();
-		if (file.substr(file.length() - 4, file.length()) == ".obj" || file.substr(file.length() - 4, file.length()) == ".fbx")
+		if (file.substr(file.length() - 4, file.length()) == ".obj")
 		{
 			model_path = file;
 		}
