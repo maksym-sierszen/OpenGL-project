@@ -54,6 +54,9 @@
     <ClCompile Include="Boids.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="JellyfishInstance.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\objload.h">
@@ -105,6 +108,9 @@
       <Filter>Source Files</Filter>
     </ClInclude>
     <ClInclude Include="Boids.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="JellyfishInstance.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

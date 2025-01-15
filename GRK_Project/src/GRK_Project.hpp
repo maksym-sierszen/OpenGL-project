@@ -1,4 +1,4 @@
-﻿#include <GLFW/glfw3.h>
+﻿
 #include <iostream>
 #include <cmath>
 #include <assimp/Importer.hpp>
@@ -18,6 +18,7 @@
 #include "Models.hpp"
 #include "Shadows.hpp"
 #include "../Boids.hpp"
+#include "../JellyfishInstance.hpp"
 
 //window variables
 const unsigned int SHADOW_WIDTH = 1024, SHADOW_HEIGHT = 1024;
@@ -223,32 +224,32 @@ void drawObjectPBR(Core::RenderContext& context, glm::mat4 modelMatrix, glm::vec
 //animations ----------------------------------------------------------------------------------------------------------------------------------------------------- animations
 void animatePlayer()
 {
-		// add nemo model as player
-		glm::mat4 modelMatrix = glm::translate(glm::mat4(1.0f), playerPos);
-		modelMatrix = glm::scale(modelMatrix, glm::vec3(5.0f));
-		// orientate the player according to the way it's moving
-		if (glm::length(playerVelocity) > 0.001f) {
-			playerDir = glm::normalize(playerVelocity); // Update direction based on movement
-		}
+	// add nemo model as player
+	glm::mat4 modelMatrix = glm::translate(glm::mat4(1.0f), playerPos);
+	modelMatrix = glm::scale(modelMatrix, glm::vec3(5.0f));
+	// orientate the player according to the way it's moving
+	if (glm::length(playerVelocity) > 0.001f) {
+		playerDir = glm::normalize(playerVelocity); // Update direction based on movement
+	}
 
-		// Interpolate player direction for smooth rotation
-		glm::vec3 targetDir = glm::normalize(playerDir);
-		playerDir = glm::mix(playerDir, targetDir, 0.1f); // Adjust 0.1f for smoothing speed
+	// Interpolate player direction for smooth rotation
+	glm::vec3 targetDir = glm::normalize(playerDir);
+	playerDir = glm::mix(playerDir, targetDir, 0.1f); // Adjust 0.1f for smoothing speed
 
-		// Calculate the right and up vectors
-		glm::vec3 right = glm::normalize(glm::cross(glm::vec3(0.0f, 1.0f, 0.0f), playerDir));
-		glm::vec3 up = glm::cross(playerDir, right);
+	// Calculate the right and up vectors
+	glm::vec3 right = glm::normalize(glm::cross(glm::vec3(0.0f, 1.0f, 0.0f), playerDir));
+	glm::vec3 up = glm::cross(playerDir, right);
 
-		// Create the rotation matrix
-		glm::mat4 rotationMatrix(1.0f);
-		rotationMatrix[0] = glm::vec4(right, 0.0f);
-		rotationMatrix[1] = glm::vec4(up, 0.0f);
-		rotationMatrix[2] = glm::vec4(playerDir, 0.0f);
+	// Create the rotation matrix
+	glm::mat4 rotationMatrix(1.0f);
+	rotationMatrix[0] = glm::vec4(right, 0.0f);
+	rotationMatrix[1] = glm::vec4(up, 0.0f);
+	rotationMatrix[2] = glm::vec4(playerDir, 0.0f);
 
-		modelMatrix *= rotationMatrix; // Apply rotation
-		
-		drawObjectPBR(models::nemo, modelMatrix, glm::vec3(), textures::nemo, 0.0f, 0.0f, 30.0f);
-		//drawObjectPBR(models::trout, modelMatrix, glm::vec3(), textures::trout, 0.5f, 0.5f, 1.0f);
+	modelMatrix *= rotationMatrix; // Apply rotation
+
+	drawObjectPBR(models::nemo, modelMatrix, glm::vec3(), textures::nemo, 0.0f, 0.0f, 30.0f);
+	//drawObjectPBR(models::trout, modelMatrix, glm::vec3(), textures::trout, 0.5f, 0.5f, 1.0f);
 }
 
 void animateInteractive()
@@ -273,7 +274,7 @@ void animateShark(glm::mat4 startingPos)
 	float angle = atan2(z, x);
 
 	glm::mat4 modelMatrix = glm::translate(startingPos, position);
-    modelMatrix = glm::rotate(modelMatrix, -angle, glm::vec3(0.0f, 1.0f, 0.0f)); // Rotate the trout in the opposite direction
+	modelMatrix = glm::rotate(modelMatrix, -angle, glm::vec3(0.0f, 1.0f, 0.0f)); // Rotate the trout in the opposite direction
 
 	// Apply the animation to the trout model
 	//applyAnimation(models::troutScene, models::trout, time);
@@ -281,6 +282,23 @@ void animateShark(glm::mat4 startingPos)
 
 }
 
+void animateJellyfishInstances() {
+	static float time = 0.0f;
+	time += deltaTime;
+
+	for (const auto& jellyfish : jellyfishInstances) {
+		// Oblicz nową pozycję meduzy w osi Y
+		float yOffset = jellyfish.amplitude * sin(time * jellyfish.speed);
+		glm::vec3 newPosition = jellyfish.startPosition + glm::vec3(0.0f, yOffset, 0.0f);
+
+		// Macierz transformacji modelu meduzy
+		glm::mat4 modelMatrix = glm::translate(glm::mat4(1.0f), newPosition);
+		modelMatrix = glm::scale(modelMatrix, glm::vec3(0.5f));
+
+		// Rysowanie modelu meduzy
+		drawObjectPBR(models::jellyfish, modelMatrix, glm::vec3(), textures::jellyfish, 0.0f, 0.0f, 30.0f);
+	}
+}
 
 //render scene objects ----------------------------------------------------------------------------------------------------------------------------------- render scene objects
 void renderSun()
@@ -371,24 +389,25 @@ void renderScene(GLFWwindow* window)
 	//render structures
 	drawObjectPBR(models::ground, glm::mat4(), glm::vec3(), textures::ground, 0.8f, 0.0f, 30.0f);
 	// np statek, jakis skarb piracki ??
-	
+
 	//render animals 
 	// rekiny, ryby, kraby, ryba z lampką na czole
 	glm::mat4 startingPos = glm::mat4();
 	startingPos = glm::translate(startingPos, glm::vec3(0.0f, 5.0f, 0.0f)); // Przesunięcie
 	startingPos = glm::rotate(startingPos, glm::radians(-90.0f), glm::vec3(0.0f, 1.0f, 0.0f)); // Obrót
-    animateShark(startingPos);
+	animateShark(startingPos);
 
-	//render environment
+	
 	// roslinnosc, kamienie itp
 	glm::mat4 modelMatrix = glm::mat4();
-	modelMatrix = glm::translate(modelMatrix, glm::vec3(0.0f, -0.8f,0.0f)); // Przesunięcie
+	modelMatrix = glm::translate(modelMatrix, glm::vec3(0.0f, -0.8f, 0.0f)); // Przesunięcie
 	modelMatrix = glm::scale(modelMatrix, glm::vec3(0.1f, 0.1f, 0.1f));    // Skalowanie
 	modelMatrix = glm::rotate(modelMatrix, glm::radians(-30.0f), glm::vec3(1.0f, 0.0f, 0.0f)); // Obrót
-	drawObjectPBR(models::v_boat, modelMatrix, glm::vec3(), textures::v_boat,0.0f, 0.0f, 30.0f);
+	drawObjectPBR(models::v_boat, modelMatrix, glm::vec3(), textures::v_boat, 0.0f, 0.0f, 30.0f);
 
 	renderBoids();
-	
+
+	animateJellyfishInstances();
 
 	//render and animate player
 	animatePlayer();
@@ -465,6 +484,9 @@ void init(GLFWwindow* window)
 	initDepthMap(depthMapSun, depthMapSunFBO);
 
 	initializeBoids(100);
+	addJellyfishInstance(glm::vec3(0.0f, 1.0f, -5.0f), 0.5f, 1.0f);
+	addJellyfishInstance(glm::vec3(2.0f, 1.0f, -7.0f), 0.6f, 1.2f);
+	addJellyfishInstance(glm::vec3(-2.0f, 1.5f, -6.0f), 0.4f, 0.8f);
 
 
 
@@ -520,12 +542,12 @@ void processInput(GLFWwindow* window)
 
 
 	//rotation
-	if (glfwGetKey(window, GLFW_KEY_Q) == GLFW_PRESS) {
+	/*if (glfwGetKey(window, GLFW_KEY_Q) == GLFW_PRESS) {
 		playerDir = glm::vec3(glm::eulerAngleY(angleSpeed) * glm::vec4(playerDir, 0));
 	}
 	if (glfwGetKey(window, GLFW_KEY_E) == GLFW_PRESS) {
 		playerDir = glm::vec3(glm::eulerAngleY(-angleSpeed) * glm::vec4(playerDir, 0));
-	}
+	}*/
 
 
 	//update camera
