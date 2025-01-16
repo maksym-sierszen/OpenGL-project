@@ -30,7 +30,6 @@ int WIDTH = 1000, HEIGHT = 1000;
 GLuint depthMapSunFBO;
 GLuint depthMapSun;
 
-
 //shaders
 GLuint programPBR;
 GLuint programTex;
@@ -405,6 +404,56 @@ void renderScene(GLFWwindow* window)
 	modelMatrix = glm::rotate(modelMatrix, glm::radians(-30.0f), glm::vec3(1.0f, 0.0f, 0.0f)); // Obrót
 	drawObjectPBR(models::v_boat, modelMatrix, glm::vec3(), textures::v_boat, 0.0f, 0.0f, 30.0f);
 
+	//glm::mat4 chestModelMatrix = glm::mat4();
+	//chestModelMatrix = glm::translate(chestModelMatrix, glm::vec3(0.0f, 0.0f, -6.0f)); // Przesunięcie
+	//chestModelMatrix = glm::scale(chestModelMatrix, glm::vec3(0.05f, 0.05f, 0.05f));    // Skalowanie
+	//chestModelMatrix = glm::rotate(chestModelMatrix, glm::radians(-30.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+
+	//drawObjectPBR(models::treasureChest, chestModelMatrix, glm::vec3(), textures::treasureChest, 0.0f, 0.0f, 50.0f);
+
+	glm::mat4 rockModelMatrix = glm::mat4();
+	rockModelMatrix = glm::translate(rockModelMatrix, glm::vec3(10.0f, -1.0f, -6.0f)); // Przesunięcie
+	rockModelMatrix = glm::scale(rockModelMatrix, glm::vec3(0.006f, 0.006f, 0.006f));    // Skalowanie
+
+	drawObjectPBR(models::rock, rockModelMatrix, glm::vec3(), textures::rock, 0.0f, 0.0f, 30.0f);
+
+	rockModelMatrix = glm::mat4();
+	rockModelMatrix = glm::translate(rockModelMatrix, glm::vec3(10.0f, -1.0f, -8.0f)); // Przesunięcie
+	rockModelMatrix = glm::scale(rockModelMatrix, glm::vec3(0.006f, 0.006f, 0.006f));    // Skalowanie
+	rockModelMatrix = glm::rotate(rockModelMatrix, glm::radians(50.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+
+	drawObjectPBR(models::rock, rockModelMatrix, glm::vec3(), textures::rock, 0.0f, 0.0f, 30.0f);
+
+	glm::mat4 crabModelMatrix = glm::mat4();
+	crabModelMatrix = glm::translate(crabModelMatrix, glm::vec3(9.0f,-0.29f, -6.0f)); // Przesunięcie
+	crabModelMatrix = glm::scale(crabModelMatrix, glm::vec3(0.03f, 0.03f, 0.03f));    // Skalowanie
+
+	drawObjectPBR(models::crab, crabModelMatrix, glm::vec3(), textures::crab, 0.0f, 0.0f, 30.0f);
+
+	crabModelMatrix = glm::mat4();
+	crabModelMatrix = glm::translate(crabModelMatrix, glm::vec3(11.0f, -0.27f, -8.0f)); // Przesunięcie
+	crabModelMatrix = glm::scale(crabModelMatrix, glm::vec3(0.03f, 0.03f, 0.03f));    // Skalowanie
+	crabModelMatrix = glm::rotate(crabModelMatrix, glm::radians(180.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+
+	drawObjectPBR(models::crab, crabModelMatrix, glm::vec3(), textures::crab, 0.0f, 0.0f, 30.0f);
+
+
+
+
+	crabModelMatrix = glm::mat4();
+	crabModelMatrix = glm::translate(crabModelMatrix, glm::vec3(9.0f, -0.27f, -8.0f)); // Przesunięcie
+	crabModelMatrix = glm::scale(crabModelMatrix, glm::vec3(0.03f, 0.03f, 0.03f));    // Skalowanie
+	crabModelMatrix = glm::rotate(crabModelMatrix, glm::radians(45.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+
+	drawObjectPBR(models::crab, crabModelMatrix, glm::vec3(), textures::crab, 0.0f, 0.0f, 30.0f);
+
+	crabModelMatrix = glm::mat4();
+	crabModelMatrix = glm::translate(crabModelMatrix, glm::vec3(7.0f, -0.8f, -8.0f)); // Przesunięcie
+	crabModelMatrix = glm::scale(crabModelMatrix, glm::vec3(0.03f, 0.03f, 0.03f));    // Skalowanie
+	crabModelMatrix = glm::rotate(crabModelMatrix, glm::radians(62.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+
+	drawObjectPBR(models::crab, crabModelMatrix, glm::vec3(), textures::crab, 0.0f, 0.0f, 30.0f);
+
 	renderBoids();
 
 	animateJellyfishInstances();
@@ -484,9 +533,42 @@ void init(GLFWwindow* window)
 	initDepthMap(depthMapSun, depthMapSunFBO);
 
 	initializeBoids(100);
-	addJellyfishInstance(glm::vec3(0.0f, 1.0f, -5.0f), 0.5f, 1.0f);
-	addJellyfishInstance(glm::vec3(2.0f, 1.0f, -7.0f), 0.6f, 1.2f);
-	addJellyfishInstance(glm::vec3(-2.0f, 1.5f, -6.0f), 0.4f, 0.8f);
+	addJellyfishInstance(glm::vec3(-10.0f, 5.0f, -5.0f), 0.5f, 1.0f);
+	addJellyfishInstance(glm::vec3(-9.0f, 6.5f, -5.0f), 0.2f, 0.9f);
+	addJellyfishInstance(glm::vec3(-11.0f, 7.0f, -7.0f), 1.0f, 0.7f);
+	addJellyfishInstance(glm::vec3(-10.0f, 7.0f, -6.0f), 0.7f, 0.8f);
+	addJellyfishInstance(glm::vec3(-11.0f, 5.5f, -5.0f), 0.8f, 0.7f);
+
+	addJellyfishInstance(glm::vec3(8.0f, 1.5f, -7.0f), 0.6f, 1.2f);
+	addJellyfishInstance(glm::vec3(12.0f, 2.0f, -7.0f), 0.5f, 1.0f);
+	addJellyfishInstance(glm::vec3(8.0f, 2.5f, -5.0f), 0.6f, 0.8f);
+	addJellyfishInstance(glm::vec3(15.0f, 3.0f, -6.0f), 0.8f, 1.0f);
+	addJellyfishInstance(glm::vec3(8.0f, 2.5f, -9.0f), 0.7f, 0.7f);
+
+	addJellyfishInstance(glm::vec3(-4.0f, 1.5f, -6.0f), 0.4f, 0.8f);
+	addJellyfishInstance(glm::vec3(1.0f, 2.5f, -8.0f), 0.6f, 0.6f);
+	addJellyfishInstance(glm::vec3(0.0f, 2.0f, -10.0f), 0.4f, 0.8f);
+	addJellyfishInstance(glm::vec3(-2.5f, 3.0f, -12.0f), 0.8f, 0.7f);
+	addJellyfishInstance(glm::vec3(2.0f, 1.5f, -10.0f), 0.4f, 0.6f);
+
+	addJellyfishInstance(glm::vec3(-2.5f, 3.0f, -16.0f), 0.6f, 0.6f);
+
+	addJellyfishInstance(glm::vec3(5.5f, 2.0f, -18.0f), 0.4f, 0.7f);
+	addJellyfishInstance(glm::vec3(0.5f, 3.0f, -17.0f), 0.8f, 0.6f);
+	addJellyfishInstance(glm::vec3(-10.0f, 3.5f, -19.0f), 0.5f, 0.7f);
+	addJellyfishInstance(glm::vec3(-4.0f, 1.7f, -17.0f), 0.6f, 0.6f);
+	addJellyfishInstance(glm::vec3(-17.5f, 2.5f, -12.0f), 0.4f, 0.7f);
+	addJellyfishInstance(glm::vec3(-14.5f, 1.0f, -10.0f), 0.6f, 0.8f);
+	addJellyfishInstance(glm::vec3(10.5f, 4.0f, -18.0f), 0.5f, 0.6f);
+	addJellyfishInstance(glm::vec3(8.5f, 2.8f, -14.0f), 0.8f, 0.6f);
+	addJellyfishInstance(glm::vec3(10.5f, 3.4f, -17.0f), 0.4f, 0.5f);
+	addJellyfishInstance(glm::vec3(3.5f, 1.8f, -19.0f), 0.7f, 0.6f);
+	addJellyfishInstance(glm::vec3(-2.5f, 2.4f, -19.0f), 0.7f, 0.5f);
+
+	addJellyfishInstance(glm::vec3(8.5f, 2.8f, -25.0f), 0.8f, 0.6f);
+	addJellyfishInstance(glm::vec3(10.5f, 3.4f, -30.0f), 0.4f, 0.5f);
+	addJellyfishInstance(glm::vec3(-13.5f, 1.8f, -28.0f), 0.7f, 0.6f);
+	addJellyfishInstance(glm::vec3(-6.5f, 2.4f, -29.0f), 0.7f, 0.5f);
 
 
 

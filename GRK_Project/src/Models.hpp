@@ -18,11 +18,14 @@ namespace models
 	Core::RenderContext nemo;
 	Core::RenderContext shark;
 	Core::RenderContext jellyfish;
+	Core::RenderContext crab;
 
 	//user
 
 	//environment
 	Core::RenderContext v_boat;
+	Core::RenderContext treasureChest;
+	Core::RenderContext rock;
 
 }
 
@@ -40,11 +43,14 @@ namespace textures
 	GLuint nemo;
 	GLuint shark;
 	GLuint jellyfish;
+	GLuint crab;
 
 	//user
 
 	//environment
 	GLuint v_boat;
+	GLuint treasureChest;
+	GLuint rock;
 }
 
 //paths ----------------------------------------------------------------------------------------------------------------------------------------------------------path
@@ -60,11 +66,14 @@ namespace objects_paths
 	std::string nemo = "./models/environment/nemo";
 	std::string shark = "./models/environment/shark";
 	std::string jellyfish = "./models/environment/jellyfish";
+	std::string crab = "./models/environment/crab";
 	//user
 	
 
 	//environment
 	std::string v_boat = "./models/environment/v_boat";
+	std::string treasureChest = "./models/environment/treasureChest";
+	std::string rock = "./models/environment/rock";
 }
 
 //get element path ------------------------------------------------------------------------------------------------------------------ get element path
@@ -197,6 +206,9 @@ void loadAllModels()
 	loadModelToContext(objects_paths::nemo, models::nemo, textures::nemo);
 	loadModelToContext(objects_paths::shark, models::shark, textures::shark);
 	loadModelToContext(objects_paths::jellyfish, models::jellyfish, textures::jellyfish);
+	loadModelToContext(objects_paths::treasureChest, models::treasureChest, textures::treasureChest);
+	loadModelToContext(objects_paths::rock, models::rock, textures::rock);
+	loadModelToContext(objects_paths::crab, models::crab, textures::crab);
 }
 
 #endif // MODELS_HPP
