@@ -17,12 +17,12 @@ namespace models
 	Core::RenderContext trout;
 	Core::RenderContext nemo;
 	Core::RenderContext shark;
-
+	Core::RenderContext crab;
 	//user
 
 	//environment
 	Core::RenderContext v_boat;
-
+	Core::RenderContext seashell;
 }
 
 //textures ----------------------------------------------------------------------------------------------------------------------------------------------------- textures
@@ -38,11 +38,12 @@ namespace textures
 	GLuint trout;
 	GLuint nemo;
 	GLuint shark;
-
+	GLuint crab;
 	//user
 
 	//environment
 	GLuint v_boat;
+	GLuint seashell;
 }
 
 //paths ----------------------------------------------------------------------------------------------------------------------------------------------------------path
@@ -57,13 +58,14 @@ namespace objects_paths
 	std::string trout = "./models/environment/trout";
 	std::string nemo = "./models/environment/nemo";
 	std::string shark = "./models/environment/shark";
-
+	std::string crab = "./models/animals/crab";
 
 	//user
 	
 
 	//environment
 	std::string v_boat = "./models/environment/v_boat";
+	std::string seashell = "./models/environment/seashell";
 }
 
 //get element path ------------------------------------------------------------------------------------------------------------------ get element path
@@ -195,6 +197,8 @@ void loadAllModels()
 	loadModelToContext(objects_paths::trout, models::trout, textures::trout);
 	loadModelToContext(objects_paths::nemo, models::nemo, textures::nemo);
 	loadModelToContext(objects_paths::shark, models::shark, textures::shark);
+	loadModelToContext(objects_paths::seashell, models::seashell, textures::seashell);
+	loadModelToContext(objects_paths::crab, models::crab, textures::crab);
 }
 
 #endif // MODELS_HPP

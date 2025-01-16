@@ -343,6 +343,64 @@ void renderBoids() {
 		drawObjectPBR(models::trout, modelMatrix, glm::vec3(), textures::trout, 0.0f, 0.0f, 30.0f);
 	}
 }
+void renderCrabs()
+{
+	
+	glm::mat4 crabMatrix1 = glm::mat4();
+	crabMatrix1 = glm::translate(crabMatrix1, glm::vec3(-1.8f, -3.5f, -4.7f));
+	crabMatrix1 = glm::rotate(crabMatrix1, glm::radians(160.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+	crabMatrix1 = glm::scale(crabMatrix1, glm::vec3(0.2f, 0.2f, 0.2f));
+	drawObjectPBR(models::crab, crabMatrix1, glm::vec3(), textures::crab, 0.0f, 0.0f, 30.0f);
+
+	
+	int totalCrabs = 5;
+	for (int i = 0; i < totalCrabs; ++i) {
+		glm::mat4 crabMatrix = glm::mat4();
+
+		
+		int row = (i < 3) ? 0 : 1;
+
+		
+		float xSpacing = 1.5f;
+		float xPosition = (row == 0) ? -3.0f + (i * xSpacing) : -1.5f + ((i - 3) * xSpacing);
+		float zPosition = -4.0f - (row * 1.3f);
+
+		crabMatrix = glm::translate(crabMatrix, glm::vec3(xPosition, -1.0f, zPosition));
+
+		
+		crabMatrix = glm::rotate(crabMatrix, glm::radians(-190.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+
+		
+		crabMatrix = glm::scale(crabMatrix, glm::vec3(0.05f, 0.05f, 0.05f));
+
+		
+		drawObjectPBR(models::crab, crabMatrix, glm::vec3(), textures::crab, 0.0f, 0.0f, 30.0f);
+	}
+}
+
+void renderSeashells() {
+
+	glm::vec3 positions[3] = {
+	glm::vec3(3.0f, -0.35f, -3.0f),
+	glm::vec3(1.0f, -0.33f, -4.0f),
+	glm::vec3(-3.0f, -0.32f, -2.0f)
+	};
+
+	for (int i = 0; i < 3; ++i) {
+		glm::mat4 shellMatrix = glm::mat4();
+
+	
+		float rotationInDegrees = 30.0f * i; 
+		float rotationInRadians = glm::radians(rotationInDegrees);
+
+		shellMatrix = glm::translate(shellMatrix, positions[i]);
+		shellMatrix = glm::rotate(shellMatrix, rotationInRadians, glm::vec3(0.0f, 1.0f, 0.0f));   
+		shellMatrix = glm::scale(shellMatrix, glm::vec3(0.01f, 0.01f, 0.01f));
+
+		drawObjectPBR(models::seashell, shellMatrix, glm::vec3(), textures::seashell, 0.3f, 0.5f, 15.0f);
+	}
+}
+
 
 //render scene --------------------------------------------------------------------------------- render scene
 void renderScene(GLFWwindow* window)
@@ -378,7 +436,8 @@ void renderScene(GLFWwindow* window)
 	startingPos = glm::translate(startingPos, glm::vec3(0.0f, 5.0f, 0.0f)); // Przesunięcie
 	startingPos = glm::rotate(startingPos, glm::radians(-90.0f), glm::vec3(0.0f, 1.0f, 0.0f)); // Obrót
     animateShark(startingPos);
-
+	renderCrabs();
+	renderSeashells();
 	//render environment
 	// roslinnosc, kamienie itp
 	glm::mat4 modelMatrix = glm::mat4();
