@@ -343,37 +343,52 @@ void renderBoids() {
 		drawObjectPBR(models::trout, modelMatrix, glm::vec3(), textures::trout, 0.0f, 0.0f, 30.0f);
 	}
 }
-void renderCrabs()
-{
-	
+
+bool isCrabMoving = false;
+float crabSwingAngle = 0.0f; // Kąt bujania
+float crabSwingSpeed = 10.0f; // Szybkość bujania
+
+void renderCrabs() {
+	glm::vec3 largestCrabPos = glm::vec3(-1.8f, -3.5f, -4.7f);
+
+	// Sprawdź odległość gracza od największego kraba
+	float detectionDistance = 6.5f; // Odległość wykrywania
+	float distance = glm::distance(playerPos, largestCrabPos);
+	if (distance < detectionDistance) {
+		isCrabMoving = true;
+	}
+	else {
+		isCrabMoving = false;
+	}
+
+	// Ruch huśtawkowy kraba
+	if (isCrabMoving) {
+		crabSwingAngle = sin(glfwGetTime() * crabSwingSpeed) * 3.0f; // Oscylacja kąta (±10 stopni)
+	}
+	else {
+		crabSwingAngle = 0.0f; // Zatrzymanie ruchu
+	}
+
 	glm::mat4 crabMatrix1 = glm::mat4();
 	crabMatrix1 = glm::translate(crabMatrix1, glm::vec3(-1.8f, -3.5f, -4.7f));
-	crabMatrix1 = glm::rotate(crabMatrix1, glm::radians(160.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+	crabMatrix1 = glm::rotate(crabMatrix1, glm::radians(crabSwingAngle), glm::vec3(1.0f, 0.0f, 0.0f)); // Huśtanie na osi Z
+	crabMatrix1 = glm::rotate(crabMatrix1, glm::radians(160.0f), glm::vec3(0.0f, 1.0f, 0.0f)); // Obrót w osi Y (ustawienie w scenie)
 	crabMatrix1 = glm::scale(crabMatrix1, glm::vec3(0.2f, 0.2f, 0.2f));
 	drawObjectPBR(models::crab, crabMatrix1, glm::vec3(), textures::crab, 0.0f, 0.0f, 30.0f);
 
-	
 	int totalCrabs = 5;
 	for (int i = 0; i < totalCrabs; ++i) {
 		glm::mat4 crabMatrix = glm::mat4();
 
-		
 		int row = (i < 3) ? 0 : 1;
-
-		
 		float xSpacing = 1.5f;
 		float xPosition = (row == 0) ? -3.0f + (i * xSpacing) : -1.5f + ((i - 3) * xSpacing);
 		float zPosition = -4.0f - (row * 1.3f);
 
 		crabMatrix = glm::translate(crabMatrix, glm::vec3(xPosition, -1.0f, zPosition));
-
-		
 		crabMatrix = glm::rotate(crabMatrix, glm::radians(-190.0f), glm::vec3(0.0f, 1.0f, 0.0f));
-
-		
 		crabMatrix = glm::scale(crabMatrix, glm::vec3(0.05f, 0.05f, 0.05f));
 
-		
 		drawObjectPBR(models::crab, crabMatrix, glm::vec3(), textures::crab, 0.0f, 0.0f, 30.0f);
 	}
 }
@@ -400,6 +415,42 @@ void renderSeashells() {
 		drawObjectPBR(models::seashell, shellMatrix, glm::vec3(), textures::seashell, 0.3f, 0.5f, 15.0f);
 	}
 }
+
+
+void renderSeaweed()
+{
+	int totalSeaweed = 100; // Liczba wodorostów
+	float radius = 12.0f; // Promień okręgu
+	glm::vec3 center = glm::vec3(0.0f, 0.0f, 0.0f); // Środek okręgu
+
+	for (int i = 0; i < totalSeaweed; ++i) {
+		glm::mat4 seaweedMatrix = glm::mat4();
+
+		// Wyliczenie pozycji wodorostów w kształcie okręgu lub wypełnionym środku
+		float angle = glm::radians(360.0f / totalSeaweed * i); // Kąt dla każdego wodorostu
+		float currentRadius = (i % 2 == 0) ? radius : radius * (0.5f + 0.5f * ((i % 3) / 2.0f)); // Wypełnienie środka
+		float xPosition = center.x + currentRadius * cos(angle);
+		float zPosition = center.z + currentRadius * sin(angle);
+		float yPosition = center.y; // Stała pozycja w osi Y (na dnie)
+
+		seaweedMatrix = glm::translate(seaweedMatrix, glm::vec3(xPosition, yPosition, zPosition));
+
+		// Stała rotacja wodorostów wokół osi Y z lekką różnorodnością
+		float baseRotation = 20.0f; // Podstawowy obrót całej grupy
+		float rotationAngle = baseRotation + 40.0f + (i % 5) * 2.0f; // Delikatnie różne kąty obrotu dla każdego wodorostu
+		seaweedMatrix = glm::rotate(seaweedMatrix, glm::radians(rotationAngle), glm::vec3(0.0f, 1.0f, 0.0f));
+
+		// Stałe skalowanie wodorostów z lekkimi różnicami
+		float scaleFactor = 0.7f + (i % 3) * 0.05f; // Skala w zakresie 0.7f do 0.85f
+		seaweedMatrix = glm::scale(seaweedMatrix, glm::vec3(scaleFactor, scaleFactor, scaleFactor));
+
+		// Rysowanie pojedynczego wodorostu
+		drawObjectPBR(models::seaweed, seaweedMatrix, glm::vec3(), textures::seaweed, 0.1f, 0.0f, 10.0f);
+	}
+}
+
+
+
 
 
 //render scene --------------------------------------------------------------------------------- render scene
@@ -445,6 +496,9 @@ void renderScene(GLFWwindow* window)
 	modelMatrix = glm::scale(modelMatrix, glm::vec3(0.1f, 0.1f, 0.1f));    // Skalowanie
 	modelMatrix = glm::rotate(modelMatrix, glm::radians(-30.0f), glm::vec3(1.0f, 0.0f, 0.0f)); // Obrót
 	drawObjectPBR(models::v_boat, modelMatrix, glm::vec3(), textures::v_boat,0.0f, 0.0f, 30.0f);
+
+	renderSeaweed();
+
 
 	renderBoids();
 	

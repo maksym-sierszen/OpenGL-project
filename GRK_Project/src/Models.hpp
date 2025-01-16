@@ -23,6 +23,7 @@ namespace models
 	//environment
 	Core::RenderContext v_boat;
 	Core::RenderContext seashell;
+	Core::RenderContext seaweed;
 }
 
 //textures ----------------------------------------------------------------------------------------------------------------------------------------------------- textures
@@ -44,6 +45,7 @@ namespace textures
 	//environment
 	GLuint v_boat;
 	GLuint seashell;
+	GLuint seaweed;
 }
 
 //paths ----------------------------------------------------------------------------------------------------------------------------------------------------------path
@@ -66,6 +68,8 @@ namespace objects_paths
 	//environment
 	std::string v_boat = "./models/environment/v_boat";
 	std::string seashell = "./models/environment/seashell";
+	std::string seaweed = "./models/environment/seaweed";
+
 }
 
 //get element path ------------------------------------------------------------------------------------------------------------------ get element path
@@ -199,6 +203,7 @@ void loadAllModels()
 	loadModelToContext(objects_paths::shark, models::shark, textures::shark);
 	loadModelToContext(objects_paths::seashell, models::seashell, textures::seashell);
 	loadModelToContext(objects_paths::crab, models::crab, textures::crab);
+	loadModelToContext(objects_paths::seaweed, models::seaweed, textures::seaweed);
 }
 
 #endif // MODELS_HPP
