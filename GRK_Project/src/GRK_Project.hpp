@@ -417,6 +417,42 @@ void renderSeashells() {
 }
 
 
+void renderSeaweed()
+{
+	int totalSeaweed = 100; // Liczba wodorostów
+	float radius = 12.0f; // Promień okręgu
+	glm::vec3 center = glm::vec3(0.0f, 0.0f, 0.0f); // Środek okręgu
+
+	for (int i = 0; i < totalSeaweed; ++i) {
+		glm::mat4 seaweedMatrix = glm::mat4();
+
+		// Wyliczenie pozycji wodorostów w kształcie okręgu lub wypełnionym środku
+		float angle = glm::radians(360.0f / totalSeaweed * i); // Kąt dla każdego wodorostu
+		float currentRadius = (i % 2 == 0) ? radius : radius * (0.5f + 0.5f * ((i % 3) / 2.0f)); // Wypełnienie środka
+		float xPosition = center.x + currentRadius * cos(angle);
+		float zPosition = center.z + currentRadius * sin(angle);
+		float yPosition = center.y; // Stała pozycja w osi Y (na dnie)
+
+		seaweedMatrix = glm::translate(seaweedMatrix, glm::vec3(xPosition, yPosition, zPosition));
+
+		// Stała rotacja wodorostów wokół osi Y z lekką różnorodnością
+		float baseRotation = 20.0f; // Podstawowy obrót całej grupy
+		float rotationAngle = baseRotation + 40.0f + (i % 5) * 2.0f; // Delikatnie różne kąty obrotu dla każdego wodorostu
+		seaweedMatrix = glm::rotate(seaweedMatrix, glm::radians(rotationAngle), glm::vec3(0.0f, 1.0f, 0.0f));
+
+		// Stałe skalowanie wodorostów z lekkimi różnicami
+		float scaleFactor = 0.7f + (i % 3) * 0.05f; // Skala w zakresie 0.7f do 0.85f
+		seaweedMatrix = glm::scale(seaweedMatrix, glm::vec3(scaleFactor, scaleFactor, scaleFactor));
+
+		// Rysowanie pojedynczego wodorostu
+		drawObjectPBR(models::seaweed, seaweedMatrix, glm::vec3(), textures::seaweed, 0.1f, 0.0f, 10.0f);
+	}
+}
+
+
+
+
+
 //render scene --------------------------------------------------------------------------------- render scene
 void renderScene(GLFWwindow* window)
 {
@@ -460,6 +496,9 @@ void renderScene(GLFWwindow* window)
 	modelMatrix = glm::scale(modelMatrix, glm::vec3(0.1f, 0.1f, 0.1f));    // Skalowanie
 	modelMatrix = glm::rotate(modelMatrix, glm::radians(-30.0f), glm::vec3(1.0f, 0.0f, 0.0f)); // Obrót
 	drawObjectPBR(models::v_boat, modelMatrix, glm::vec3(), textures::v_boat,0.0f, 0.0f, 30.0f);
+
+	renderSeaweed();
+
 
 	renderBoids();
 	
