@@ -343,37 +343,52 @@ void renderBoids() {
 		drawObjectPBR(models::trout, modelMatrix, glm::vec3(), textures::trout, 0.0f, 0.0f, 30.0f);
 	}
 }
-void renderCrabs()
-{
-	
+
+bool isCrabMoving = false;
+float crabSwingAngle = 0.0f; // Kąt bujania
+float crabSwingSpeed = 10.0f; // Szybkość bujania
+
+void renderCrabs() {
+	glm::vec3 largestCrabPos = glm::vec3(-1.8f, -3.5f, -4.7f);
+
+	// Sprawdź odległość gracza od największego kraba
+	float detectionDistance = 6.5f; // Odległość wykrywania
+	float distance = glm::distance(playerPos, largestCrabPos);
+	if (distance < detectionDistance) {
+		isCrabMoving = true;
+	}
+	else {
+		isCrabMoving = false;
+	}
+
+	// Ruch huśtawkowy kraba
+	if (isCrabMoving) {
+		crabSwingAngle = sin(glfwGetTime() * crabSwingSpeed) * 3.0f; // Oscylacja kąta (±10 stopni)
+	}
+	else {
+		crabSwingAngle = 0.0f; // Zatrzymanie ruchu
+	}
+
 	glm::mat4 crabMatrix1 = glm::mat4();
 	crabMatrix1 = glm::translate(crabMatrix1, glm::vec3(-1.8f, -3.5f, -4.7f));
-	crabMatrix1 = glm::rotate(crabMatrix1, glm::radians(160.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+	crabMatrix1 = glm::rotate(crabMatrix1, glm::radians(crabSwingAngle), glm::vec3(1.0f, 0.0f, 0.0f)); // Huśtanie na osi Z
+	crabMatrix1 = glm::rotate(crabMatrix1, glm::radians(160.0f), glm::vec3(0.0f, 1.0f, 0.0f)); // Obrót w osi Y (ustawienie w scenie)
 	crabMatrix1 = glm::scale(crabMatrix1, glm::vec3(0.2f, 0.2f, 0.2f));
 	drawObjectPBR(models::crab, crabMatrix1, glm::vec3(), textures::crab, 0.0f, 0.0f, 30.0f);
 
-	
 	int totalCrabs = 5;
 	for (int i = 0; i < totalCrabs; ++i) {
 		glm::mat4 crabMatrix = glm::mat4();
 
-		
 		int row = (i < 3) ? 0 : 1;
-
-		
 		float xSpacing = 1.5f;
 		float xPosition = (row == 0) ? -3.0f + (i * xSpacing) : -1.5f + ((i - 3) * xSpacing);
 		float zPosition = -4.0f - (row * 1.3f);
 
 		crabMatrix = glm::translate(crabMatrix, glm::vec3(xPosition, -1.0f, zPosition));
-
-		
 		crabMatrix = glm::rotate(crabMatrix, glm::radians(-190.0f), glm::vec3(0.0f, 1.0f, 0.0f));
-
-		
 		crabMatrix = glm::scale(crabMatrix, glm::vec3(0.05f, 0.05f, 0.05f));
 
-		
 		drawObjectPBR(models::crab, crabMatrix, glm::vec3(), textures::crab, 0.0f, 0.0f, 30.0f);
 	}
 }
