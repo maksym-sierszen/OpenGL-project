@@ -19,6 +19,7 @@ namespace models
 	Core::RenderContext shark;
 	Core::RenderContext jellyfish;
 	Core::RenderContext crab;
+	
 
 	//user
 
@@ -26,7 +27,12 @@ namespace models
 	Core::RenderContext v_boat;
 	Core::RenderContext treasureChest;
 	Core::RenderContext rock;
-
+	Core::RenderContext statue;
+	Core::RenderContext gold;
+	Core::RenderContext remains;
+	Core::RenderContext scull;
+	Core::RenderContext beast;
+	Core::RenderContext sword;
 }
 
 //textures ----------------------------------------------------------------------------------------------------------------------------------------------------- textures
@@ -44,6 +50,7 @@ namespace textures
 	GLuint shark;
 	GLuint jellyfish;
 	GLuint crab;
+	
 
 	//user
 
@@ -51,6 +58,12 @@ namespace textures
 	GLuint v_boat;
 	GLuint treasureChest;
 	GLuint rock;
+	GLuint statue;
+	GLuint gold;
+	GLuint remains;
+	GLuint scull;
+	GLuint beast;
+	GLuint sword;
 }
 
 //paths ----------------------------------------------------------------------------------------------------------------------------------------------------------path
@@ -74,6 +87,12 @@ namespace objects_paths
 	std::string v_boat = "./models/environment/v_boat";
 	std::string treasureChest = "./models/environment/treasureChest";
 	std::string rock = "./models/environment/rock";
+	std::string statue = "./models/environment/statue";
+	std::string gold = "./models/environment/gold";
+	std::string remains = "./models/environment/remains";
+	std::string scull = "./models/environment/scull";
+	std::string beast = "./models/environment/beast";
+	std::string sword = "./models/environment/sword";
 }
 
 //get element path ------------------------------------------------------------------------------------------------------------------ get element path
@@ -209,6 +228,12 @@ void loadAllModels()
 	loadModelToContext(objects_paths::treasureChest, models::treasureChest, textures::treasureChest);
 	loadModelToContext(objects_paths::rock, models::rock, textures::rock);
 	loadModelToContext(objects_paths::crab, models::crab, textures::crab);
+	loadModelToContext(objects_paths::statue, models::statue, textures::statue);
+	loadModelToContext(objects_paths::gold, models::gold, textures::gold);
+	loadModelToContext(objects_paths::remains, models::remains, textures::remains);
+	loadModelToContext(objects_paths::scull, models::scull, textures::scull);
+	loadModelToContext(objects_paths::beast, models::beast, textures::beast);
+	loadModelToContext(objects_paths::sword, models::sword, textures::sword);
 }
 
 #endif // MODELS_HPP
