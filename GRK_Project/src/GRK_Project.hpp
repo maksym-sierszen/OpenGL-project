@@ -71,11 +71,15 @@ glm::vec3 pointlightPos = glm::vec3(0.0f, 2.0f, 0.0f);
 glm::vec3 pointlightColorON = glm::vec3(0.9, 0.6, 0.6) * 4;
 glm::vec3 pointlightColor = pointlightColorON * 0;
 
-//player animation
+// player animation when collision with jellyfish
+bool checkCollision(glm::vec3 playerPosition, glm::vec3 jellyfishPosition, float jellyfishRadius = 0.5f) {
+	float distance = glm::distance(playerPosition, jellyfishPosition);
+	return distance <= jellyfishRadius;
+}
 
-
-//animation
-
+bool isPlayerBlinking = false;
+float blinkTimer = 0.0f;
+float blinkDuration = 1.0f; // Czas trwania mrugania w sekundach
 
 
 //projections for shadows
@@ -223,32 +227,38 @@ void drawObjectPBR(Core::RenderContext& context, glm::mat4 modelMatrix, glm::vec
 //animations ----------------------------------------------------------------------------------------------------------------------------------------------------- animations
 void animatePlayer()
 {
-	// add nemo model as player
-	glm::mat4 modelMatrix = glm::translate(glm::mat4(1.0f), playerPos);
-	modelMatrix = glm::scale(modelMatrix, glm::vec3(5.0f));
-	// orientate the player according to the way it's moving
-	if (glm::length(playerVelocity) > 0.001f) {
-		playerDir = glm::normalize(playerVelocity); // Update direction based on movement
-	}
+		glm::mat4 modelMatrix = glm::translate(glm::mat4(1.0f), playerPos);
+		modelMatrix = glm::scale(modelMatrix, glm::vec3(5.0f));
 
-	// Interpolate player direction for smooth rotation
-	glm::vec3 targetDir = glm::normalize(playerDir);
-	playerDir = glm::mix(playerDir, targetDir, 0.1f); // Adjust 0.1f for smoothing speed
+		if (glm::length(playerVelocity) > 0.001f) {
+			playerDir = glm::normalize(playerVelocity);
+		}
 
-	// Calculate the right and up vectors
-	glm::vec3 right = glm::normalize(glm::cross(glm::vec3(0.0f, 1.0f, 0.0f), playerDir));
-	glm::vec3 up = glm::cross(playerDir, right);
+		glm::vec3 targetDir = glm::normalize(playerDir);
+		playerDir = glm::mix(playerDir, targetDir, 0.1f);
 
-	// Create the rotation matrix
-	glm::mat4 rotationMatrix(1.0f);
-	rotationMatrix[0] = glm::vec4(right, 0.0f);
-	rotationMatrix[1] = glm::vec4(up, 0.0f);
-	rotationMatrix[2] = glm::vec4(playerDir, 0.0f);
+		glm::vec3 right = glm::normalize(glm::cross(glm::vec3(0.0f, 1.0f, 0.0f), playerDir));
+		glm::vec3 up = glm::cross(playerDir, right);
 
-	modelMatrix *= rotationMatrix; // Apply rotation
+		glm::mat4 rotationMatrix(1.0f);
+		rotationMatrix[0] = glm::vec4(right, 0.0f);
+		rotationMatrix[1] = glm::vec4(up, 0.0f);
+		rotationMatrix[2] = glm::vec4(playerDir, 0.0f);
 
-	drawObjectPBR(models::nemo, modelMatrix, glm::vec3(), textures::nemo, 0.0f, 0.0f, 30.0f);
-	//drawObjectPBR(models::trout, modelMatrix, glm::vec3(), textures::trout, 0.5f, 0.5f, 1.0f);
+		modelMatrix *= rotationMatrix;
+
+		glm::vec3 playerColor = isPlayerBlinking ? glm::vec3(1.0f, 0.0f, 0.0f) : glm::vec3(0.5f, 0.5f, 1.0f);
+
+		float brightness = isPlayerBlinking ? 100.0f + 20.0f * sin(10.0f * blinkTimer) : 30.0f;
+		drawObjectPBR(models::nemo, modelMatrix, playerColor, textures::nemo, 0.0f, 0.0f, brightness);
+
+		if (isPlayerBlinking) {
+			blinkTimer += deltaTime;
+			if (blinkTimer >= blinkDuration) {
+				isPlayerBlinking = false;
+				blinkTimer = 0.0f;
+			}
+		}
 }
 
 void animateInteractive()
@@ -286,16 +296,22 @@ void animateJellyfishInstances() {
 	time += deltaTime;
 
 	for (const auto& jellyfish : jellyfishInstances) {
-		// Oblicz nową pozycję meduzy w osi Y
 		float yOffset = jellyfish.amplitude * sin(time * jellyfish.speed);
 		glm::vec3 newPosition = jellyfish.startPosition + glm::vec3(0.0f, yOffset, 0.0f);
-
-		// Macierz transformacji modelu meduzy
 		glm::mat4 modelMatrix = glm::translate(glm::mat4(1.0f), newPosition);
 		modelMatrix = glm::scale(modelMatrix, glm::vec3(0.5f));
 
-		// Rysowanie modelu meduzy
-		drawObjectPBR(models::jellyfish, modelMatrix, glm::vec3(), textures::jellyfish, 0.0f, 0.0f, 30.0f);
+
+		if (checkCollision(playerPos, newPosition)) {
+			isPlayerBlinking = true;
+			blinkTimer = 0.0f;
+			glm::vec3 jellyfishColor = glm::vec3(1.0f, 0.5f, 0.5f); // Zmiana koloru na bardziej widoczny
+			modelMatrix = glm::scale(modelMatrix, glm::vec3(1.2f)); // Powiększenie
+			drawObjectPBR(models::jellyfish, modelMatrix, jellyfishColor, textures::jellyfish, 0.0f, 0.0f, 50.0f);
+		}
+		else {
+			drawObjectPBR(models::jellyfish, modelMatrix, glm::vec3(), textures::jellyfish, 0.0f, 0.0f, 30.0f);
+		}
 	}
 }
 
@@ -468,8 +484,6 @@ void renderSeaweed()
 
 
 
-
-
 //render scene --------------------------------------------------------------------------------- render scene
 void renderScene(GLFWwindow* window)
 {
@@ -490,6 +504,12 @@ void renderScene(GLFWwindow* window)
 
 	updateDeltaTime(time);
 
+	// jellyfish interaction
+	if (isPlayerBlinking) {
+		float shakeIntensity = 0.05f;
+		cameraPos.x += shakeIntensity * sin(20.0f * blinkTimer);
+		cameraPos.y += shakeIntensity * sin(25.0f * blinkTimer);
+	}
 	//sun
 	renderSun();
 
