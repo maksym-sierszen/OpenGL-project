@@ -433,8 +433,8 @@ void renderScene(GLFWwindow* window)
 	drawObjectPBR(models::remains, remainsModelMatrix, glm::vec3(), textures::remains, 0.0f, 0.0f, 50.0f);
 
 	glm::mat4 chestModelMatrix = glm::mat4();
-	chestModelMatrix = glm::translate(chestModelMatrix, glm::vec3(-8.0f, -0.3f, -5.0f)); // Przesunięcie
-	chestModelMatrix = glm::scale(chestModelMatrix, glm::vec3(0.03f, 0.03f, 0.03f));    // Skalowanie
+	chestModelMatrix = glm::translate(chestModelMatrix, glm::vec3(-8.0f, 0.45f, -5.0f)); // Przesunięcie
+	chestModelMatrix = glm::scale(chestModelMatrix, glm::vec3(1.0f, 1.0f, 1.0f));    // Skalowanie
 	chestModelMatrix = glm::rotate(chestModelMatrix, glm::radians(120.0f), glm::vec3(0.0f, 1.0f, 0.0f));
 
 	drawObjectPBR(models::treasureChest, chestModelMatrix, glm::vec3(), textures::treasureChest, 0.0f, 0.0f, 50.0f);
