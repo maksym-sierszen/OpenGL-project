@@ -55,6 +55,8 @@ glm::vec3 cameraPos = glm::vec3(cameraStartPos.x, cameraStartPos.y, cameraStartP
 glm::vec3 cameraDir = playerDir;
 glm::vec3 playerVelocity(0.0f, 0.0f, 0.0f);
 
+std::vector<glm::mat4> seaweedMatrices;
+
 //mouse
 double lastX, lastY;
 bool firstMouse = true;
@@ -452,6 +454,8 @@ void renderSeashells() {
 
 void renderSeaweed()
 {
+	srand(static_cast<unsigned int>(time(0))); // Inicjalizacja generatora liczb losowych
+
 	int totalSeaweed = 100; // Liczba wodorostów
 	float radius = 12.0f; // Promień okręgu
 	glm::vec3 center = glm::vec3(0.0f, 0.0f, 0.0f); // Środek okręgu
@@ -461,7 +465,9 @@ void renderSeaweed()
 
 		// Wyliczenie pozycji wodorostów w kształcie okręgu lub wypełnionym środku
 		float angle = glm::radians(360.0f / totalSeaweed * i); // Kąt dla każdego wodorostu
+		float randomOffset = static_cast<float>(rand()) / static_cast<float>(RAND_MAX) * 4.0f - 2.0f; // Losowy offset w zakresie -2.0f do 2.0f
 		float currentRadius = (i % 2 == 0) ? radius : radius * (0.5f + 0.5f * ((i % 3) / 2.0f)); // Wypełnienie środka
+		currentRadius += randomOffset; // Dodanie losowego offsetu do promienia
 		float xPosition = center.x + currentRadius * cos(angle);
 		float zPosition = center.z + currentRadius * sin(angle);
 		float yPosition = center.y; // Stała pozycja w osi Y (na dnie)
@@ -478,7 +484,8 @@ void renderSeaweed()
 		seaweedMatrix = glm::scale(seaweedMatrix, glm::vec3(scaleFactor, scaleFactor, scaleFactor));
 
 		// Rysowanie pojedynczego wodorostu
-		drawObjectPBR(models::seaweed, seaweedMatrix, glm::vec3(), textures::seaweed, 0.1f, 0.0f, 10.0f);
+		//drawObjectPBR(models::seaweed, seaweedMatrix, glm::vec3(), textures::seaweed, 0.1f, 0.0f, 10.0f);
+		seaweedMatrices.push_back(seaweedMatrix);
 	}
 }
 
@@ -729,7 +736,11 @@ void renderScene(GLFWwindow* window)
 
 	drawObjectPBR(models::statue, statueModelMatrix, glm::vec3(), textures::statue, 0.0f, 0.0f, 30.0f);
 
-	renderSeaweed();
+	//renderSeaweed();
+	for (const auto& seaweedMatrix : seaweedMatrices) {
+		drawObjectPBR(models::seaweed, seaweedMatrix, glm::vec3(), textures::seaweed, 0.1f, 0.0f, 10.0f);
+	}
+
 
 
 	renderBoids();
@@ -847,6 +858,8 @@ void init(GLFWwindow* window)
 	addJellyfishInstance(glm::vec3(10.5f, 3.4f, -30.0f), 0.4f, 0.5f);
 	addJellyfishInstance(glm::vec3(-13.5f, 1.8f, -28.0f), 0.7f, 0.6f);
 	addJellyfishInstance(glm::vec3(-6.5f, 2.4f, -29.0f), 0.7f, 0.5f);
+
+	renderSeaweed();
 
 
 
