@@ -17,13 +17,31 @@ namespace models
 	Core::RenderContext trout;
 	Core::RenderContext nemo;
 	Core::RenderContext shark;
+
 	Core::RenderContext crab;
+
+	Core::RenderContext jellyfish;
+
+	
+
+
 	//user
 
 	//environment
 	Core::RenderContext v_boat;
+
 	Core::RenderContext seashell;
 	Core::RenderContext seaweed;
+
+	Core::RenderContext treasureChest;
+	Core::RenderContext rock;
+	Core::RenderContext statue;
+	Core::RenderContext gold;
+	Core::RenderContext remains;
+	Core::RenderContext scull;
+	Core::RenderContext beast;
+	Core::RenderContext sword;
+
 }
 
 //textures ----------------------------------------------------------------------------------------------------------------------------------------------------- textures
@@ -40,12 +58,26 @@ namespace textures
 	GLuint nemo;
 	GLuint shark;
 	GLuint crab;
+	GLuint jellyfish;
+
+	
+
+
 	//user
 
 	//environment
 	GLuint v_boat;
 	GLuint seashell;
 	GLuint seaweed;
+	GLuint treasureChest;
+	GLuint rock;
+	GLuint statue;
+	GLuint gold;
+	GLuint remains;
+	GLuint scull;
+	GLuint beast;
+	GLuint sword;
+
 }
 
 //paths ----------------------------------------------------------------------------------------------------------------------------------------------------------path
@@ -61,6 +93,8 @@ namespace objects_paths
 	std::string nemo = "./models/environment/nemo";
 	std::string shark = "./models/environment/shark";
 	std::string crab = "./models/animals/crab";
+	std::string jellyfish = "./models/environment/jellyfish";
+
 
 	//user
 	
@@ -69,6 +103,14 @@ namespace objects_paths
 	std::string v_boat = "./models/environment/v_boat";
 	std::string seashell = "./models/environment/seashell";
 	std::string seaweed = "./models/environment/seaweed";
+	std::string treasureChest = "./models/environment/treasureChest";
+	std::string rock = "./models/environment/rock";
+	std::string statue = "./models/environment/statue";
+	std::string gold = "./models/environment/gold";
+	std::string remains = "./models/environment/remains";
+	std::string scull = "./models/environment/scull";
+	std::string beast = "./models/environment/beast";
+	std::string sword = "./models/environment/sword";
 
 }
 
@@ -201,9 +243,22 @@ void loadAllModels()
 	loadModelToContext(objects_paths::trout, models::trout, textures::trout);
 	loadModelToContext(objects_paths::nemo, models::nemo, textures::nemo);
 	loadModelToContext(objects_paths::shark, models::shark, textures::shark);
+
 	loadModelToContext(objects_paths::seashell, models::seashell, textures::seashell);
 	loadModelToContext(objects_paths::crab, models::crab, textures::crab);
 	loadModelToContext(objects_paths::seaweed, models::seaweed, textures::seaweed);
+
+	loadModelToContext(objects_paths::jellyfish, models::jellyfish, textures::jellyfish);
+	loadModelToContext(objects_paths::treasureChest, models::treasureChest, textures::treasureChest);
+	loadModelToContext(objects_paths::rock, models::rock, textures::rock);
+	loadModelToContext(objects_paths::crab, models::crab, textures::crab);
+	loadModelToContext(objects_paths::statue, models::statue, textures::statue);
+	loadModelToContext(objects_paths::gold, models::gold, textures::gold);
+	loadModelToContext(objects_paths::remains, models::remains, textures::remains);
+	loadModelToContext(objects_paths::scull, models::scull, textures::scull);
+	loadModelToContext(objects_paths::beast, models::beast, textures::beast);
+	loadModelToContext(objects_paths::sword, models::sword, textures::sword);
+
 }
 
 #endif // MODELS_HPP

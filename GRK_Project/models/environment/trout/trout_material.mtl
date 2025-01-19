@@ -1,0 +1,17 @@
+# Blender MTL File: 'Trout Rainbow.blend'
+# Material Count: 1
+
+newmtl Default_OBJ
+Ns 250.000000
+Ka 1.000000 1.000000 1.000000
+Kd 0.800000 0.800000 0.800000
+Ks 0.178182 0.178182 0.178182
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+map_Bump D:\\CG Trader\\Ultimate fishing\\Trout Rainbow\\Texture2D\\Trout Rainbow_normal.png
+map_Kd D:\\CG Trader\\Ultimate fishing\\Trout Rainbow\\Texture2D\\Trout Rainbow_baseColor.jpg
+map_Ns D:\\CG Trader\\Ultimate fishing\\Trout Rainbow\\Texture2D\\Trout Rainbow_roughness.jpg
+map_d D:\\CG Trader\\Ultimate fishing\\Trout Rainbow\\Texture2D\\TroutRainbow_AlbedoTransparency.png
+refl D:\\CG Trader\\Ultimate fishing\\Trout Rainbow\\Texture2D\\Trout Rainbow_metallic.jpg
