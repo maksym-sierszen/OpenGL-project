@@ -475,8 +475,9 @@ void renderSeaweed()
 		seaweedMatrix = glm::translate(seaweedMatrix, glm::vec3(xPosition, yPosition, zPosition));
 
 		// Stała rotacja wodorostów wokół osi Y z lekką różnorodnością
-		float baseRotation = 20.0f; // Podstawowy obrót całej grupy
-		float rotationAngle = baseRotation + 40.0f + (i % 5) * 2.0f; // Delikatnie różne kąty obrotu dla każdego wodorostu
+		float baseRotation = 0.0f; // Podstawowy obrót całej grupy
+		float randomRotation = static_cast<float>(rand()) / static_cast<float>(RAND_MAX) * 360.0f - 180.0f; // Losowy obrót w zakresie -180.0f do 180.0f
+		float rotationAngle = baseRotation + 40.0f + (i % 5) * 2.0f + randomRotation; // Delikatnie różne kąty obrotu dla każdego wodorostu
 		seaweedMatrix = glm::rotate(seaweedMatrix, glm::radians(rotationAngle), glm::vec3(0.0f, 1.0f, 0.0f));
 
 		// Stałe skalowanie wodorostów z lekkimi różnicami
