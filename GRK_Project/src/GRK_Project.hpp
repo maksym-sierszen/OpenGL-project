@@ -96,7 +96,7 @@ void updateDeltaTime(float time) {
 	}
 
 	deltaTime = time - lastTime;
-	if (deltaTime > 0.1) deltaTime = 0.1;
+	if (deltaTime > 0.1f) deltaTime = 0.1f;
 	lastTime = time;
 }
 
@@ -271,7 +271,7 @@ void animateInteractive()
 void animateShark(glm::mat4 startingPos)
 {
 	// Example animation: make the trout swim in a circle
-	float time = glfwGetTime();
+	float time = (float)glfwGetTime();
 	float radius = 8.0f;
 	float speed = 0.3f;
 
@@ -396,7 +396,7 @@ void renderCrabs() {
 
 	// Ruch huśtawkowy kraba
 	if (isCrabMoving) {
-		crabSwingAngle = sin(glfwGetTime() * crabSwingSpeed) * 3.0f; // Oscylacja kąta (±10 stopni)
+		crabSwingAngle = (float)sin(glfwGetTime() * crabSwingSpeed) * 3.0f; // Oscylacja kąta (±10 stopni)
 	}
 	else {
 		crabSwingAngle = 0.0f; // Zatrzymanie ruchu
@@ -500,7 +500,7 @@ void renderScene(GLFWwindow* window)
 
 
 	//time and delta time
-	float time = glfwGetTime();
+	float time = (float)glfwGetTime();
 
 	updateDeltaTime(time);
 
@@ -762,8 +762,8 @@ void mouse_callback(GLFWwindow* window, double xpos, double ypos)
 		firstMouse = false;
 	}
 
-	float xoffset = xpos - lastX;
-	float yoffset = lastY - ypos; // Odwrócone, ponieważ współrzędne y idą w górę
+	float xoffset = (float)(xpos - lastX);
+	float yoffset = (float)(lastY - ypos); // Odwrócone, ponieważ współrzędne y idą w górę
 	lastX = xpos;
 	lastY = ypos;
 
@@ -917,33 +917,33 @@ void processInput(GLFWwindow* window)
 
 	//exposition
 	if (glfwGetKey(window, GLFW_KEY_1) == GLFW_PRESS) {
-		exposition -= 0.05;
+		exposition -= 0.05f;
 	}
 	if (glfwGetKey(window, GLFW_KEY_2) == GLFW_PRESS) {
-		exposition += 0.05;
+		exposition += 0.05f;
 	}
 
 	//sunDir
 	//x
 	if (glfwGetKey(window, GLFW_KEY_5) == GLFW_PRESS) {
-		sunx += 0.1;
+		sunx += 0.1f;
 	}
 	if (glfwGetKey(window, GLFW_KEY_6) == GLFW_PRESS) {
-		sunx -= 0.1;
+		sunx -= 0.1f;
 	}
 	//y
 	if (glfwGetKey(window, GLFW_KEY_7) == GLFW_PRESS) {
-		suny += 0.1;
+		suny += 0.1f;
 	}
 	if (glfwGetKey(window, GLFW_KEY_8) == GLFW_PRESS) {
-		suny -= 0.1;
+		suny -= 0.1f;
 	}
 	//z
 	if (glfwGetKey(window, GLFW_KEY_9) == GLFW_PRESS) {
-		sunz += 0.1;
+		sunz += 0.1f;
 	}
 	if (glfwGetKey(window, GLFW_KEY_0) == GLFW_PRESS) {
-		sunz -= 0.1;
+		sunz -= 0.1f;
 	}
 
 
@@ -998,7 +998,7 @@ void setMaxFPS(float fps)
 	if (1 / deltaTime > fps)
 	{
 		float timeToDelay = 1 - (deltaTime * fps);
-		Sleep((timeToDelay * 1000) / fps);
+		Sleep(static_cast<DWORD>((timeToDelay * 1000) / fps));
 	}
 }
 
