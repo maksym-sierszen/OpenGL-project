@@ -28,6 +28,9 @@ uniform float brightness;
 
 uniform float exposition;
 
+uniform vec3 pearlLightPos; // Pozycja œwiat³a per³y
+uniform vec3 pearlLightColor; // Kolor œwiat³a per³y
+
 in vec3 vecNormal;
 in vec3 worldPos;
 in vec2 vecTex;
@@ -154,6 +157,10 @@ void main()
     float shadowSun = ShadowCalculation(sunSpacePos, normal, sunDir, depthMapSun);
 	ilumination=ilumination+PBRLight(sunDir,shadowSun*sunColor,normal,viewDirSun);
 
+    // pearl
+    vec3 pearlLightDir = normalize(pearlLightPos - worldPos);
+    vec3 attenuatedPearlLightColor = pearlLightColor / pow(length(pearlLightPos - worldPos), 2.0);
+    ilumination += PBRLight(pearlLightDir, attenuatedPearlLightColor, normal, viewDir);
     
     vec3 skyColor = vec3(0.0, 0.4, 0.8);
 	outColor = vec4(vec3(1.0) - exp(-ilumination*exposition),1);

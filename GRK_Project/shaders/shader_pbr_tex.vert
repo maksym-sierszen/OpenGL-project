@@ -28,6 +28,8 @@ out vec3 sunDirTS;
 out vec2 vecTex;
 out vec4 sunSpacePos;
 
+
+
 const float density = 0.05;
 const float gradient = 1.0;
 

@@ -71,6 +71,12 @@ glm::vec3 pointlightPos = glm::vec3(0.0f, 2.0f, 0.0f);
 glm::vec3 pointlightColorON = glm::vec3(0.9, 0.6, 0.6) * 4;
 glm::vec3 pointlightColor = pointlightColorON * 0;
 
+
+// pearl
+glm::vec3 pearlLightPos = glm::vec3(0.5f, 4.4f, -1.6f);
+glm::vec3 pearlLightColor = glm::vec3(1.0f, 1.0f, 0.8f); 
+
+
 // player animation when collision with jellyfish
 bool checkCollision(glm::vec3 playerPosition, glm::vec3 jellyfishPosition, float jellyfishRadius = 0.5f) {
 	float distance = glm::distance(playerPosition, jellyfishPosition);
@@ -210,6 +216,8 @@ void drawObjectPBR(Core::RenderContext& context, glm::mat4 modelMatrix, glm::vec
 	glUniform3f(glGetUniformLocation(program, "lightPos"), pointlightPos.x, pointlightPos.y, pointlightPos.z);
 	glUniform3f(glGetUniformLocation(program, "lightColor"), pointlightColor.x, pointlightColor.y, pointlightColor.z);
 
+	glUniform3f(glGetUniformLocation(program, "pearlLightPos"), pearlLightPos.x, pearlLightPos.y, pearlLightPos.z);
+	glUniform3f(glGetUniformLocation(program, "pearlLightColor"), pearlLightColor.x, pearlLightColor.y, pearlLightColor.z);
 
 
 	if (textureId == NULL)
@@ -594,111 +602,111 @@ void renderScene(GLFWwindow* window)
 	drawObjectPBR(models::gold, goldModelMatrix, glm::vec3(), textures::gold, 0.0f, 0.0f, 50.0f);
 
 	glm::mat4 rockModelMatrix = glm::mat4();
-	rockModelMatrix = glm::translate(rockModelMatrix, glm::vec3(10.0f, -1.0f, -6.0f)); // Przesunięcie
-	rockModelMatrix = glm::scale(rockModelMatrix, glm::vec3(0.006f, 0.006f, 0.006f));    // Skalowanie
+	rockModelMatrix = glm::translate(rockModelMatrix, glm::vec3(10.0f, -1.0f, -6.0f));
+	rockModelMatrix = glm::scale(rockModelMatrix, glm::vec3(0.006f, 0.006f, 0.006f));   
 
 	drawObjectPBR(models::rock, rockModelMatrix, glm::vec3(), textures::rock, 0.0f, 0.0f, 30.0f);
 
 	rockModelMatrix = glm::mat4();
-	rockModelMatrix = glm::translate(rockModelMatrix, glm::vec3(10.0f, -1.0f, -8.0f)); // Przesunięcie
-	rockModelMatrix = glm::scale(rockModelMatrix, glm::vec3(0.006f, 0.006f, 0.006f));    // Skalowanie
+	rockModelMatrix = glm::translate(rockModelMatrix, glm::vec3(10.0f, -1.0f, -8.0f));
+	rockModelMatrix = glm::scale(rockModelMatrix, glm::vec3(0.006f, 0.006f, 0.006f));  
 	rockModelMatrix = glm::rotate(rockModelMatrix, glm::radians(50.0f), glm::vec3(0.0f, 1.0f, 0.0f));
 
 	drawObjectPBR(models::rock, rockModelMatrix, glm::vec3(), textures::rock, 0.0f, 0.0f, 30.0f);
 
 	rockModelMatrix = glm::mat4();
-	rockModelMatrix = glm::translate(rockModelMatrix, glm::vec3(10.0f, -3.0f, 20.0f)); // Przesunięcie
-	rockModelMatrix = glm::scale(rockModelMatrix, glm::vec3(0.03f, 0.03f, 0.03f));    // Skalowanie
+	rockModelMatrix = glm::translate(rockModelMatrix, glm::vec3(10.0f, -3.0f, 20.0f));
+	rockModelMatrix = glm::scale(rockModelMatrix, glm::vec3(0.03f, 0.03f, 0.03f));   
 	rockModelMatrix = glm::rotate(rockModelMatrix, glm::radians(50.0f), glm::vec3(0.0f, 1.0f, 0.0f));
 
 	drawObjectPBR(models::rock, rockModelMatrix, glm::vec3(), textures::rock, 0.0f, 0.0f, 30.0f);
 
 	rockModelMatrix = glm::mat4();
-	rockModelMatrix = glm::translate(rockModelMatrix, glm::vec3(15.0f, -3.0f, 20.0f)); // Przesunięcie
-	rockModelMatrix = glm::scale(rockModelMatrix, glm::vec3(0.03f, 0.03f, 0.03f));    // Skalowanie
+	rockModelMatrix = glm::translate(rockModelMatrix, glm::vec3(15.0f, -3.0f, 20.0f));
+	rockModelMatrix = glm::scale(rockModelMatrix, glm::vec3(0.03f, 0.03f, 0.03f));   
 	rockModelMatrix = glm::rotate(rockModelMatrix, glm::radians(90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
 
 	drawObjectPBR(models::rock, rockModelMatrix, glm::vec3(), textures::rock, 0.0f, 0.0f, 30.0f);
 
 	rockModelMatrix = glm::mat4();
-	rockModelMatrix = glm::translate(rockModelMatrix, glm::vec3(20.0f, -3.5f, 20.0f)); // Przesunięcie
-	rockModelMatrix = glm::scale(rockModelMatrix, glm::vec3(0.03f, 0.03f, 0.03f));    // Skalowanie
+	rockModelMatrix = glm::translate(rockModelMatrix, glm::vec3(20.0f, -3.5f, 20.0f)); 
+	rockModelMatrix = glm::scale(rockModelMatrix, glm::vec3(0.03f, 0.03f, 0.03f));  
 	rockModelMatrix = glm::rotate(rockModelMatrix, glm::radians(130.0f), glm::vec3(0.0f, 1.0f, 0.0f));
 
 	drawObjectPBR(models::rock, rockModelMatrix, glm::vec3(), textures::rock, 0.0f, 0.0f, 30.0f);
 
 	rockModelMatrix = glm::mat4();
-	rockModelMatrix = glm::translate(rockModelMatrix, glm::vec3(-10.0f, -3.0f, 24.0f)); // Przesunięcie
-	rockModelMatrix = glm::scale(rockModelMatrix, glm::vec3(0.03f, 0.03f, 0.03f));    // Skalowanie
+	rockModelMatrix = glm::translate(rockModelMatrix, glm::vec3(-10.0f, -3.0f, 24.0f)); 
+	rockModelMatrix = glm::scale(rockModelMatrix, glm::vec3(0.03f, 0.03f, 0.03f));   
 	rockModelMatrix = glm::rotate(rockModelMatrix, glm::radians(130.0f), glm::vec3(0.0f, 1.0f, 0.0f));
 
 	drawObjectPBR(models::rock, rockModelMatrix, glm::vec3(), textures::rock, 0.0f, 0.0f, 30.0f);
 
 	rockModelMatrix = glm::mat4();
-	rockModelMatrix = glm::translate(rockModelMatrix, glm::vec3(-14.0f, -3.0f, 24.0f)); // Przesunięcie
-	rockModelMatrix = glm::scale(rockModelMatrix, glm::vec3(0.03f, 0.03f, 0.03f));    // Skalowanie
+	rockModelMatrix = glm::translate(rockModelMatrix, glm::vec3(-14.0f, -3.0f, 24.0f));
+	rockModelMatrix = glm::scale(rockModelMatrix, glm::vec3(0.03f, 0.03f, 0.03f));   
 	rockModelMatrix = glm::rotate(rockModelMatrix, glm::radians(-120.0f), glm::vec3(0.0f, 1.0f, 0.0f));
 
 	drawObjectPBR(models::rock, rockModelMatrix, glm::vec3(), textures::rock, 0.0f, 0.0f, 30.0f);
 
 	rockModelMatrix = glm::mat4();
-	rockModelMatrix = glm::translate(rockModelMatrix, glm::vec3(-30.0f, -4.9f, 0.0f)); // Przesunięcie
-	rockModelMatrix = glm::scale(rockModelMatrix, glm::vec3(0.03f, 0.03f, 0.03f));    // Skalowanie
+	rockModelMatrix = glm::translate(rockModelMatrix, glm::vec3(-30.0f, -4.9f, 0.0f));
+	rockModelMatrix = glm::scale(rockModelMatrix, glm::vec3(0.03f, 0.03f, 0.03f));   
 	rockModelMatrix = glm::rotate(rockModelMatrix, glm::radians(-180.0f), glm::vec3(0.0f, 1.0f, 0.0f));
 
 	drawObjectPBR(models::rock, rockModelMatrix, glm::vec3(), textures::rock, 0.0f, 0.0f, 30.0f);
 
 	rockModelMatrix = glm::mat4();
-	rockModelMatrix = glm::translate(rockModelMatrix, glm::vec3(-30.0f, -6.0f, -13.0f)); // Przesunięcie
-	rockModelMatrix = glm::scale(rockModelMatrix, glm::vec3(0.03f, 0.03f, 0.03f));    // Skalowanie
+	rockModelMatrix = glm::translate(rockModelMatrix, glm::vec3(-30.0f, -6.0f, -13.0f));
+	rockModelMatrix = glm::scale(rockModelMatrix, glm::vec3(0.03f, 0.03f, 0.03f));   
 	rockModelMatrix = glm::rotate(rockModelMatrix, glm::radians(175.0f), glm::vec3(0.0f, 1.0f, 0.0f));
 
 	drawObjectPBR(models::rock, rockModelMatrix, glm::vec3(), textures::rock, 0.0f, 0.0f, 30.0f);
 
 	rockModelMatrix = glm::mat4();
-	rockModelMatrix = glm::translate(rockModelMatrix, glm::vec3(-24.0f, -5.0f, -22.0f)); // Przesunięcie
-	rockModelMatrix = glm::scale(rockModelMatrix, glm::vec3(0.03f, 0.03f, 0.03f));    // Skalowanie
+	rockModelMatrix = glm::translate(rockModelMatrix, glm::vec3(-24.0f, -5.0f, -22.0f)); 
+	rockModelMatrix = glm::scale(rockModelMatrix, glm::vec3(0.03f, 0.03f, 0.03f));   
 	rockModelMatrix = glm::rotate(rockModelMatrix, glm::radians(140.0f), glm::vec3(0.0f, 1.0f, 0.0f));
 
 	drawObjectPBR(models::rock, rockModelMatrix, glm::vec3(), textures::rock, 0.0f, 0.0f, 30.0f);
 
 	rockModelMatrix = glm::mat4();
-	rockModelMatrix = glm::translate(rockModelMatrix, glm::vec3(24.0f, -5.5f, -22.0f)); // Przesunięcie
-	rockModelMatrix = glm::scale(rockModelMatrix, glm::vec3(0.03f, 0.03f, 0.03f));    // Skalowanie
+	rockModelMatrix = glm::translate(rockModelMatrix, glm::vec3(24.0f, -5.5f, -22.0f));
+	rockModelMatrix = glm::scale(rockModelMatrix, glm::vec3(0.03f, 0.03f, 0.03f));   
 	rockModelMatrix = glm::rotate(rockModelMatrix, glm::radians(-140.0f), glm::vec3(0.0f, 1.0f, 0.0f));
 
 	drawObjectPBR(models::rock, rockModelMatrix, glm::vec3(), textures::rock, 0.0f, 0.0f, 30.0f);
 
 	rockModelMatrix = glm::mat4();
-	rockModelMatrix = glm::translate(rockModelMatrix, glm::vec3(2.0f, -7.0f, -33.0f)); // Przesunięcie
-	rockModelMatrix = glm::scale(rockModelMatrix, glm::vec3(0.03f, 0.03f, 0.03f));    // Skalowanie
+	rockModelMatrix = glm::translate(rockModelMatrix, glm::vec3(2.0f, -7.0f, -33.0f));
+	rockModelMatrix = glm::scale(rockModelMatrix, glm::vec3(0.03f, 0.03f, 0.03f));   
 	rockModelMatrix = glm::rotate(rockModelMatrix, glm::radians(90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
 
 	drawObjectPBR(models::rock, rockModelMatrix, glm::vec3(), textures::rock, 0.0f, 0.0f, 30.0f);
 
 	rockModelMatrix = glm::mat4();
-	rockModelMatrix = glm::translate(rockModelMatrix, glm::vec3(33.0f, -5.5f, 0.0f)); // Przesunięcie
-	rockModelMatrix = glm::scale(rockModelMatrix, glm::vec3(0.03f, 0.03f, 0.03f));    // Skalowanie
+	rockModelMatrix = glm::translate(rockModelMatrix, glm::vec3(33.0f, -5.5f, 0.0f));
+	rockModelMatrix = glm::scale(rockModelMatrix, glm::vec3(0.03f, 0.03f, 0.03f));  
 	rockModelMatrix = glm::rotate(rockModelMatrix, glm::radians(-170.0f), glm::vec3(0.0f, 1.0f, 0.0f));
 
 	drawObjectPBR(models::rock, rockModelMatrix, glm::vec3(), textures::rock, 0.0f, 0.0f, 30.0f);
 
 	rockModelMatrix = glm::mat4();
-	rockModelMatrix = glm::translate(rockModelMatrix, glm::vec3(33.0f, -5.5f, -10.0f)); // Przesunięcie
-	rockModelMatrix = glm::scale(rockModelMatrix, glm::vec3(0.03f, 0.03f, 0.03f));    // Skalowanie
+	rockModelMatrix = glm::translate(rockModelMatrix, glm::vec3(33.0f, -5.5f, -10.0f));
+	rockModelMatrix = glm::scale(rockModelMatrix, glm::vec3(0.03f, 0.03f, 0.03f));   
 	rockModelMatrix = glm::rotate(rockModelMatrix, glm::radians(-150.0f), glm::vec3(0.0f, 1.0f, 0.0f));
 
 	drawObjectPBR(models::rock, rockModelMatrix, glm::vec3(), textures::rock, 0.0f, 0.0f, 30.0f);
 
 	glm::mat4 crabModelMatrix = glm::mat4();
-	crabModelMatrix = glm::translate(crabModelMatrix, glm::vec3(9.0f,-0.29f, -6.0f)); // Przesunięcie
-	crabModelMatrix = glm::scale(crabModelMatrix, glm::vec3(0.03f, 0.03f, 0.03f));    // Skalowanie
+	crabModelMatrix = glm::translate(crabModelMatrix, glm::vec3(9.0f,-0.29f, -6.0f));
+	crabModelMatrix = glm::scale(crabModelMatrix, glm::vec3(0.03f, 0.03f, 0.03f));   
 
 	drawObjectPBR(models::crab, crabModelMatrix, glm::vec3(), textures::crab, 0.0f, 0.0f, 30.0f);
 
 	crabModelMatrix = glm::mat4();
-	crabModelMatrix = glm::translate(crabModelMatrix, glm::vec3(11.0f, -0.27f, -8.0f)); // Przesunięcie
-	crabModelMatrix = glm::scale(crabModelMatrix, glm::vec3(0.03f, 0.03f, 0.03f));    // Skalowanie
+	crabModelMatrix = glm::translate(crabModelMatrix, glm::vec3(11.0f, -0.27f, -8.0f));
+	crabModelMatrix = glm::scale(crabModelMatrix, glm::vec3(0.03f, 0.03f, 0.03f));   
 	crabModelMatrix = glm::rotate(crabModelMatrix, glm::radians(180.0f), glm::vec3(0.0f, 1.0f, 0.0f));
 
 	drawObjectPBR(models::crab, crabModelMatrix, glm::vec3(), textures::crab, 0.0f, 0.0f, 30.0f);
@@ -707,27 +715,48 @@ void renderScene(GLFWwindow* window)
 
 
 	crabModelMatrix = glm::mat4();
-	crabModelMatrix = glm::translate(crabModelMatrix, glm::vec3(9.0f, -0.27f, -8.0f)); // Przesunięcie
-	crabModelMatrix = glm::scale(crabModelMatrix, glm::vec3(0.03f, 0.03f, 0.03f));    // Skalowanie
+	crabModelMatrix = glm::translate(crabModelMatrix, glm::vec3(9.0f, -0.27f, -8.0f));
+	crabModelMatrix = glm::scale(crabModelMatrix, glm::vec3(0.03f, 0.03f, 0.03f));  
 	crabModelMatrix = glm::rotate(crabModelMatrix, glm::radians(45.0f), glm::vec3(0.0f, 1.0f, 0.0f));
 
 	drawObjectPBR(models::crab, crabModelMatrix, glm::vec3(), textures::crab, 0.0f, 0.0f, 30.0f);
 
 	crabModelMatrix = glm::mat4();
-	crabModelMatrix = glm::translate(crabModelMatrix, glm::vec3(7.0f, -0.8f, -8.0f)); // Przesunięcie
-	crabModelMatrix = glm::scale(crabModelMatrix, glm::vec3(0.03f, 0.03f, 0.03f));    // Skalowanie
+	crabModelMatrix = glm::translate(crabModelMatrix, glm::vec3(7.0f, -0.8f, -8.0f));
+	crabModelMatrix = glm::scale(crabModelMatrix, glm::vec3(0.03f, 0.03f, 0.03f));   
 	crabModelMatrix = glm::rotate(crabModelMatrix, glm::radians(62.0f), glm::vec3(0.0f, 1.0f, 0.0f));
 
 	drawObjectPBR(models::crab, crabModelMatrix, glm::vec3(), textures::crab, 0.0f, 0.0f, 30.0f);
 
 
 	glm::mat4 statueModelMatrix = glm::mat4();
-	statueModelMatrix = glm::translate(statueModelMatrix, glm::vec3(-10.0f, -1.25f, 10.0f)); // Przesunięcie
-	statueModelMatrix = glm::scale(statueModelMatrix, glm::vec3(0.2f, 0.2f, 0.2f));    // Skalowanie
+	statueModelMatrix = glm::translate(statueModelMatrix, glm::vec3(-10.0f, -1.25f, 10.0f)); 
+	statueModelMatrix = glm::scale(statueModelMatrix, glm::vec3(0.2f, 0.2f, 0.2f));    
 	statueModelMatrix = glm::rotate(statueModelMatrix, glm::radians(-50.0f), glm::vec3(0.0f, 1.0f, 0.0f));
 	statueModelMatrix = glm::rotate(statueModelMatrix, glm::radians(20.0f), glm::vec3(1.0f, 0.0f, 1.0f));
 
 	drawObjectPBR(models::statue, statueModelMatrix, glm::vec3(), textures::statue, 0.0f, 0.0f, 30.0f);
+
+
+	
+
+	float pearlLightIntensity = 1.0f + 0.1f * sin((float)glfwGetTime() * 5.0f); 
+	pearlLightColor = glm::vec3(1.0f, 1.0f, 0.8f) * pearlLightIntensity * 2.0f;
+
+	// actually not a pearl but an anglerfish light
+	glm::mat4 pearlMatrix = glm::mat4(1.0f);
+	pearlMatrix = glm::translate(pearlMatrix, glm::vec3(0.5f, 4.4f, -1.6f)); 
+	pearlMatrix = glm::scale(pearlMatrix, glm::vec3(0.07f, 0.07f, 0.07f)); 
+	drawObjectPBR(models::sphere, pearlMatrix, glm::vec3(1.0f, 1.0f, 1.0f), textures::sphere, 0.0f, 1.0f, 50.0f);
+
+
+
+	glm::mat4 anglerfishModelMatrix = glm::mat4(1.0f);
+	anglerfishModelMatrix = glm::translate(anglerfishModelMatrix, glm::vec3(0.0f, 2.0f, 0.0f));
+	anglerfishModelMatrix = glm::rotate(anglerfishModelMatrix, glm::radians(160.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+	anglerfishModelMatrix = glm::scale(anglerfishModelMatrix, glm::vec3(0.8f, 0.8f, 0.8f)); 
+	drawObjectPBR(models::anglerfish, anglerfishModelMatrix, glm::vec3(1.0f, 1.0f, 1.0f), textures::anglerfish, 0.0f, 1.0f, 50.0f);
+
 
 	renderSeaweed();
 

@@ -17,7 +17,7 @@ namespace models
 	Core::RenderContext trout;
 	Core::RenderContext nemo;
 	Core::RenderContext shark;
-
+	Core::RenderContext anglerfish;
 	Core::RenderContext crab;
 
 	Core::RenderContext jellyfish;
@@ -59,7 +59,7 @@ namespace textures
 	GLuint shark;
 	GLuint crab;
 	GLuint jellyfish;
-
+	GLuint anglerfish;
 	
 
 
@@ -94,6 +94,7 @@ namespace objects_paths
 	std::string shark = "./models/environment/shark";
 	std::string crab = "./models/animals/crab";
 	std::string jellyfish = "./models/environment/jellyfish";
+	std::string anglerfish = "./models/animals/anglerfish";
 
 
 	//user
@@ -258,7 +259,7 @@ void loadAllModels()
 	loadModelToContext(objects_paths::scull, models::scull, textures::scull);
 	loadModelToContext(objects_paths::beast, models::beast, textures::beast);
 	loadModelToContext(objects_paths::sword, models::sword, textures::sword);
-
+	loadModelToContext(objects_paths::anglerfish, models::anglerfish, textures::anglerfish);
 }
 
 #endif // MODELS_HPP
