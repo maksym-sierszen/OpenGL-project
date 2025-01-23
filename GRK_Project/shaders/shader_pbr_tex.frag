@@ -17,10 +17,7 @@ uniform vec3 sunColor;
 uniform vec3 lightPos;
 uniform vec3 lightColor;
 
-uniform vec3 spotlightPos;
-uniform vec3 spotlightColor;
-uniform vec3 spotlightConeDir;
-uniform vec3 spotlightPhi;
+
 
 uniform float metallic;
 uniform float roughness;
@@ -28,8 +25,8 @@ uniform float brightness;
 
 uniform float exposition;
 
-uniform vec3 pearlLightPos; // Pozycja œwiat³a per³y
-uniform vec3 pearlLightColor; // Kolor œwiat³a per³y
+uniform vec3 pearlLightPos; 
+uniform vec3 pearlLightColor;
 
 in vec3 vecNormal;
 in vec3 worldPos;
@@ -39,9 +36,7 @@ in float visibility;
 out vec4 outColor;
 
 
-in vec3 viewDirTS;
-in vec3 lightDirTS;
-in vec3 spotlightDirTS;
+
 in vec4 sunSpacePos;
 
 in vec3 sunDirTS;
@@ -136,14 +131,14 @@ vec3 PBRLight(vec3 lightDir, vec3 radiance, vec3 normal, vec3 V){
 void main()
 {
 
-	//vec3 normal = vec3(0,0,1);
+	
     vec3 normal = normalize(vecNormal);
 
-    //vec3 viewDir = normalize(viewDirTS);
+    
     vec3 viewDir = normalize(cameraPos-worldPos);
     vec3 viewDirSun = normalize(cameraStartPos - worldPos);
 
-	//vec3 lightDir = normalize(lightDirTS);
+
 	vec3 lightDir = normalize(lightPos-worldPos);
 
     //main light

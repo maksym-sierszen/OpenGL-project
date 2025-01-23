@@ -10,7 +10,7 @@ layout(location = 4) in vec3 vertexBitangent;
 uniform mat4 transformation;
 uniform mat4 modelMatrix;
 uniform mat4 sunVP;
-uniform mat4 tableLightVP;
+
 
 out vec3 vecNormal;
 out vec3 worldPos;
