@@ -403,11 +403,11 @@ void renderSeaweed()
 		seaweedMatrix = glm::rotate(seaweedMatrix, glm::radians(rotationAngle), glm::vec3(0.0f, 1.0f, 0.0f));
 
 		// scaling in a range to make each one look slightly different
-		float scaleFactor = 0.7f + (i % 3) * 0.05f;
+		float scaleFactor = 75.7f + (i % 3) * 0.05f;
 		seaweedMatrix = glm::scale(seaweedMatrix, glm::vec3(scaleFactor, scaleFactor, scaleFactor));
 
 
-		drawObjectPBR(models::seaweed, seaweedMatrix, glm::vec3(), textures::seaweed, 0.1f, 0.0f, 10.0f);
+		drawObjectPBR(models::seaweed, seaweedMatrix, glm::vec3(), textures::seaweed, 0.1f, 0.0f, 40.0f);
 	}
 }
 
