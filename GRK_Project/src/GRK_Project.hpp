@@ -52,6 +52,8 @@ glm::vec3 cameraPos = glm::vec3(cameraStartPos.x, cameraStartPos.y, cameraStartP
 glm::vec3 cameraDir = playerDir;
 glm::vec3 playerVelocity(0.0f, 0.0f, 0.0f);
 
+std::vector<glm::mat4> seaweedMatrices;
+
 //mouse
 double lastX, lastY;
 bool firstMouse = true;
@@ -381,6 +383,8 @@ void renderCrabs() {
 
 void renderSeaweed()
 {
+	srand(static_cast<unsigned int>(time(0))); // Inicjalizacja generatora liczb losowych
+
 	int totalSeaweed = 100;
 	float radius = 12.0f; 
 	glm::vec3 center = glm::vec3(0.0f, 0.0f, 0.0f); 
@@ -391,15 +395,18 @@ void renderSeaweed()
 		// calculate the position of seaweed in circular shape 
 		float angle = glm::radians(360.0f / totalSeaweed * i); //angle for each seaweed
 		float currentRadius = (i % 2 == 0) ? radius : radius * (0.5f + 0.5f * ((i % 3) / 2.0f)); // filling of the center
+		float randomOffset = static_cast<float>(rand()) / static_cast<float>(RAND_MAX) * 4.0f - 2.0f; // Losowy offset w zakresie -2.0f do 2.0f
+		currentRadius += randomOffset; // Dodanie losowego offsetu do promienia
 		float xPosition = center.x + currentRadius * cos(angle);
 		float zPosition = center.z + currentRadius * sin(angle);
-		float yPosition = center.y - 0.3f;
+		float yPosition = center.y;
 
 		seaweedMatrix = glm::translate(seaweedMatrix, glm::vec3(xPosition, yPosition, zPosition));
 
 
-		float baseRotation = 20.0f; 
-		float rotationAngle = baseRotation + 40.0f + (i % 5) * 3.0f;
+		float baseRotation = 0.0f; // Podstawowy obrót całej grupy
+		float randomRotation = static_cast<float>(rand()) / static_cast<float>(RAND_MAX) * 360.0f - 180.0f; // Losowy obrót w zakresie -180.0f do 180.0f
+		float rotationAngle = baseRotation + 40.0f + (i % 5) * 2.0f + randomRotation; // Delikatnie różne kąty obrotu dla każdego wodorostu
 		seaweedMatrix = glm::rotate(seaweedMatrix, glm::radians(rotationAngle), glm::vec3(0.0f, 1.0f, 0.0f));
 
 		// scaling in a range to make each one look slightly different
@@ -407,7 +414,7 @@ void renderSeaweed()
 		seaweedMatrix = glm::scale(seaweedMatrix, glm::vec3(scaleFactor, scaleFactor, scaleFactor));
 
 
-		drawObjectPBR(models::seaweed, seaweedMatrix, glm::vec3(), textures::seaweed, 0.1f, 0.0f, 40.0f);
+		seaweedMatrices.push_back(seaweedMatrix);
 	}
 }
 
@@ -658,7 +665,9 @@ void renderScene(GLFWwindow* window)
 	drawObjectPBR(models::anglerfish, anglerfishModelMatrix, glm::vec3(1.0f, 1.0f, 1.0f), textures::anglerfish, 0.0f, 1.0f, 50.0f);
 
 
-	renderSeaweed();
+	for (const auto& seaweedMatrix : seaweedMatrices) {
+		drawObjectPBR(models::seaweed, seaweedMatrix, glm::vec3(), textures::seaweed, 0.1f, 0.0f, 40.0f);
+	}
 
 
 	renderBoids();
@@ -765,6 +774,8 @@ void init(GLFWwindow* window)
 	addJellyfishInstance(glm::vec3(-14.5f, 1.0f, -10.0f), 0.6f, 0.8f);
 	addJellyfishInstance(glm::vec3(8.5f, 2.8f, -14.0f), 0.8f, 0.6f);
 	addJellyfishInstance(glm::vec3(10.5f, 3.4f, -17.0f), 0.4f, 0.5f);
+
+	renderSeaweed();
 }
 
 
