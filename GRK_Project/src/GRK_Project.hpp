@@ -465,14 +465,14 @@ void renderScene(GLFWwindow* window)
 	drawObjectPBR(models::v_boat, modelMatrix, glm::vec3(), textures::v_boat, 0.0f, 0.0f, 30.0f);
 
 	glm::mat4 swordModelMatrix = glm::mat4();
-	swordModelMatrix = glm::translate(swordModelMatrix, glm::vec3(10.2f, 0.4f, 3.8f)); 
+	swordModelMatrix = glm::translate(swordModelMatrix, glm::vec3(13.7f, 0.4f, -0.2f)); 
 	swordModelMatrix = glm::scale(swordModelMatrix, glm::vec3(0.03f, 0.03f, 0.03f));    
 	swordModelMatrix = glm::rotate(swordModelMatrix, glm::radians(87.0f), glm::vec3(1.0f, 0.0f, 0.0f));
 
 	drawObjectPBR(models::sword, swordModelMatrix, glm::vec3(), textures::sword, 0.0f, 0.0f, 50.0f);
 
 	glm::mat4 beastModelMatrix = glm::mat4();
-	beastModelMatrix = glm::translate(beastModelMatrix, glm::vec3(6.0f, -7.7f, 5.5f));
+	beastModelMatrix = glm::translate(beastModelMatrix, glm::vec3(9.5f, -7.7f, 1.5f));
 	beastModelMatrix = glm::scale(beastModelMatrix, glm::vec3(7.0f, 7.0f, 7.0f));    
 
 	drawObjectPBR(models::beast, beastModelMatrix, glm::vec3(), textures::beast, 0.0f, 0.0f, 50.0f);
@@ -542,7 +542,7 @@ void renderScene(GLFWwindow* window)
 	drawObjectPBR(models::rock, rockModelMatrix, glm::vec3(), textures::rock, 0.0f, 0.0f, 30.0f);
 
 	rockModelMatrix = glm::mat4();
-	rockModelMatrix = glm::translate(rockModelMatrix, glm::vec3(20.0f, -3.5f, 20.0f) * 0.6f);
+	rockModelMatrix = glm::translate(rockModelMatrix, glm::vec3(18.0f, -4.5f, 18.0f) * 0.6f);
 	rockModelMatrix = glm::scale(rockModelMatrix, glm::vec3(0.03f, 0.03f, 0.03f));
 	rockModelMatrix = glm::rotate(rockModelMatrix, glm::radians(130.0f), glm::vec3(0.0f, 1.0f, 0.0f));
 	drawObjectPBR(models::rock, rockModelMatrix, glm::vec3(), textures::rock, 0.0f, 0.0f, 30.0f);
@@ -554,7 +554,7 @@ void renderScene(GLFWwindow* window)
 	drawObjectPBR(models::rock, rockModelMatrix, glm::vec3(), textures::rock, 0.0f, 0.0f, 30.0f);
 
 	rockModelMatrix = glm::mat4();
-	rockModelMatrix = glm::translate(rockModelMatrix, glm::vec3(-14.0f, -3.0f, 24.0f) * 0.6f); 
+	rockModelMatrix = glm::translate(rockModelMatrix, glm::vec3(-16.0f, -3.0f, 24.0f) * 0.6f); 
 	rockModelMatrix = glm::scale(rockModelMatrix, glm::vec3(0.03f, 0.03f, 0.03f));
 	rockModelMatrix = glm::rotate(rockModelMatrix, glm::radians(-120.0f), glm::vec3(0.0f, 1.0f, 0.0f));
 	drawObjectPBR(models::rock, rockModelMatrix, glm::vec3(), textures::rock, 0.0f, 0.0f, 30.0f);
@@ -572,10 +572,9 @@ void renderScene(GLFWwindow* window)
 	drawObjectPBR(models::rock, rockModelMatrix, glm::vec3(), textures::rock, 0.0f, 0.0f, 30.0f);
 
 	rockModelMatrix = glm::mat4();
-	rockModelMatrix = glm::translate(rockModelMatrix, glm::vec3(-14.0f, -5.0f, -22.0f) * 0.9f); 
+	rockModelMatrix = glm::translate(rockModelMatrix, glm::vec3(-14.0f, -5.0f, -20.0f) * 0.9f); 
 	rockModelMatrix = glm::scale(rockModelMatrix, glm::vec3(0.03f, 0.03f, 0.03f));
 	rockModelMatrix = glm::rotate(rockModelMatrix, glm::radians(140.0f), glm::vec3(0.0f, 1.0f, 0.0f));
-	drawObjectPBR(models::rock, rockModelMatrix, glm::vec3(), textures::rock, 0.0f, 0.0f, 30.0f);
 	drawObjectPBR(models::rock, rockModelMatrix, glm::vec3(), textures::rock, 0.0f, 0.0f, 30.0f);
 
 	rockModelMatrix = glm::mat4();
@@ -591,7 +590,7 @@ void renderScene(GLFWwindow* window)
 	drawObjectPBR(models::rock, rockModelMatrix, glm::vec3(), textures::rock, 0.0f, 0.0f, 30.0f);
 
 	rockModelMatrix = glm::mat4();
-	rockModelMatrix = glm::translate(rockModelMatrix, glm::vec3(33.0f, -5.5f, 0.0f) * 0.6f);
+	rockModelMatrix = glm::translate(rockModelMatrix, glm::vec3(32.0f, -5.5f, 0.0f) * 0.6f);
 	rockModelMatrix = glm::scale(rockModelMatrix, glm::vec3(0.03f, 0.03f, 0.03f));
 	rockModelMatrix = glm::rotate(rockModelMatrix, glm::radians(-170.0f), glm::vec3(0.0f, 1.0f, 0.0f));
 	drawObjectPBR(models::rock, rockModelMatrix, glm::vec3(), textures::rock, 0.0f, 0.0f, 30.0f);
@@ -615,9 +614,6 @@ void renderScene(GLFWwindow* window)
 
 	drawObjectPBR(models::crab, crabModelMatrix, glm::vec3(), textures::crab, 0.0f, 0.0f, 30.0f);
 
-
-
-
 	crabModelMatrix = glm::mat4();
 	crabModelMatrix = glm::translate(crabModelMatrix, glm::vec3(9.0f, -0.27f, -8.0f));
 	crabModelMatrix = glm::scale(crabModelMatrix, glm::vec3(0.03f, 0.03f, 0.03f));  
@@ -634,7 +630,7 @@ void renderScene(GLFWwindow* window)
 
 
 	glm::mat4 statueModelMatrix = glm::mat4();
-	statueModelMatrix = glm::translate(statueModelMatrix, glm::vec3(-10.0f, -1.25f, 10.0f)); 
+	statueModelMatrix = glm::translate(statueModelMatrix, glm::vec3(-6.0f, -1.25f, 4.0f)); 
 	statueModelMatrix = glm::scale(statueModelMatrix, glm::vec3(0.2f, 0.2f, 0.2f));    
 	statueModelMatrix = glm::rotate(statueModelMatrix, glm::radians(-50.0f), glm::vec3(0.0f, 1.0f, 0.0f));
 	statueModelMatrix = glm::rotate(statueModelMatrix, glm::radians(20.0f), glm::vec3(1.0f, 0.0f, 1.0f));
@@ -763,25 +759,12 @@ void init(GLFWwindow* window)
 
 	addJellyfishInstance(glm::vec3(-2.5f, 3.0f, -16.0f), 0.6f, 0.6f);
 
-	addJellyfishInstance(glm::vec3(5.5f, 2.0f, -18.0f), 0.4f, 0.7f);
 	addJellyfishInstance(glm::vec3(0.5f, 3.0f, -17.0f), 0.8f, 0.6f);
-	addJellyfishInstance(glm::vec3(-10.0f, 3.5f, -19.0f), 0.5f, 0.7f);
 	addJellyfishInstance(glm::vec3(-4.0f, 1.7f, -17.0f), 0.6f, 0.6f);
 	addJellyfishInstance(glm::vec3(-17.5f, 2.5f, -12.0f), 0.4f, 0.7f);
 	addJellyfishInstance(glm::vec3(-14.5f, 1.0f, -10.0f), 0.6f, 0.8f);
-	addJellyfishInstance(glm::vec3(10.5f, 4.0f, -18.0f), 0.5f, 0.6f);
 	addJellyfishInstance(glm::vec3(8.5f, 2.8f, -14.0f), 0.8f, 0.6f);
 	addJellyfishInstance(glm::vec3(10.5f, 3.4f, -17.0f), 0.4f, 0.5f);
-	addJellyfishInstance(glm::vec3(3.5f, 1.8f, -19.0f), 0.7f, 0.6f);
-	addJellyfishInstance(glm::vec3(-2.5f, 2.4f, -19.0f), 0.7f, 0.5f);
-
-	addJellyfishInstance(glm::vec3(8.5f, 2.8f, -25.0f), 0.8f, 0.6f);
-	addJellyfishInstance(glm::vec3(10.5f, 3.4f, -30.0f), 0.4f, 0.5f);
-	addJellyfishInstance(glm::vec3(-13.5f, 1.8f, -28.0f), 0.7f, 0.6f);
-	addJellyfishInstance(glm::vec3(-6.5f, 2.4f, -29.0f), 0.7f, 0.5f);
-
-
-
 }
 
 
