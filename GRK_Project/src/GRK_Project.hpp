@@ -110,8 +110,6 @@ glm::mat4 createCameraMatrix()
 {
 	glm::vec3 cameraSide = glm::normalize(glm::cross(cameraDir, glm::vec3(0.f, 1.f, 0.f)));
 	glm::vec3 cameraUp = glm::normalize(glm::cross(cameraSide, cameraDir));
-	//glm::vec3 cameraPosition = playerPos - cameraDir * 0.5f + glm::vec3(0, 2, 0) * 0.2f; // Adjust the distance and height as needed
-	//cameraPos = playerPos - 0.5 * playerDir + glm::vec3(0, 2, 0) * 0.2f;
 	glm::mat4 cameraRotationMatrix = glm::mat4({
 		cameraSide.x,cameraSide.y,cameraSide.z,0,
 		cameraUp.x,cameraUp.y,cameraUp.z ,0,
@@ -299,8 +297,6 @@ void renderSun()
 	glUniform1f(glGetUniformLocation(programSun, "exposition"), exposition);
 
 	sunDir = glm::vec3(sunx, suny, sunz);
-
-	Core::DrawContext(models::sphere);
 }
 
 void renderSkybox(Core::RenderContext& context, glm::mat4 modelMatrix, GLuint textureID)
@@ -792,8 +788,8 @@ void shutdown(GLFWwindow* window)
 //input processing ------------------------------------------------------------------------------------------------------------------------------------------- input processing
 void processInput(GLFWwindow* window)
 {
-	glm::vec3 spaceshipSide = glm::normalize(glm::cross(playerDir, glm::vec3(0.f, 1.f, 0.f)));
-	glm::vec3 spaceshipUp = glm::vec3(0.f, 1.f, 0.f);
+	glm::vec3 playerSide = glm::normalize(glm::cross(playerDir, glm::vec3(0.f, 1.f, 0.f)));
+	glm::vec3 playerUp = glm::vec3(0.f, 1.f, 0.f);
 	float angleSpeed = 0.05f * deltaTime * 60;
 	float moveSpeed = 0.05f * deltaTime * 60;
 
@@ -814,16 +810,16 @@ void processInput(GLFWwindow* window)
 		playerPos -= playerDir * moveSpeed;
 	}
 	if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS) {
-		playerPos += spaceshipSide * moveSpeed;
+		playerPos += playerSide * moveSpeed;
 	}
 	if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS) {
-		playerPos -= spaceshipSide * moveSpeed;
+		playerPos -= playerSide * moveSpeed;
 	}
 	if (glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_PRESS) {
-		playerPos += spaceshipUp * moveSpeed;
+		playerPos += playerUp * moveSpeed;
 	}
 	if (glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS) {
-		playerPos -= spaceshipUp * moveSpeed;
+		playerPos -= playerUp * moveSpeed;
 	}
 
 
@@ -861,14 +857,6 @@ void processInput(GLFWwindow* window)
 	}
 	if (glfwGetKey(window, GLFW_KEY_0) == GLFW_PRESS) {
 		sunz -= 0.1f;
-	}
-
-
-	// debug info
-	if (glfwGetKey(window, GLFW_KEY_3) == GLFW_PRESS) {
-		printf("spaceshipPos = glm::vec3(%ff, %ff, %ff);\n", playerPos.x, playerPos.y, playerPos.z);
-		printf("spaceshipDir = glm::vec3(%ff, %ff, %ff);\n", playerDir.x, playerDir.y, playerDir.z);
-		printf("sunDir = glm::vec3(%ff, %ff, %ff);\n\n", sunx, suny, suny);
 	}
 }
 
